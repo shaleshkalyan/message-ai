@@ -1,12 +1,12 @@
 import dbConnect from "@/db/Connect";
-import { getSession, userSessionType } from "@/lib/Session";
+import { getSession } from "@/lib/Session";
 import UserModel from "@/models/UserModel";
 
 export async function POST()
 {
     await dbConnect();
     try {
-        const userData : userSessionType = getSession();
+        const userData = getSession();
         if (!userData) {
             return Response.json({ type: 'error', message : 'Session expired Please login again...'})  
         }
