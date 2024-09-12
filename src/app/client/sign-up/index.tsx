@@ -38,25 +38,23 @@ const SignUpForm = (): React.ReactNode => {
       password: "",
     },
   });
-  const verifyUniqueUserName = async () => {
-    setMessage("");
-    try {
-      // const response = await axios.get<ApiResponse>(
-      //   `/api/check-unique-username?user=${debounced}`
-      // );
-      // setMessage(response.data.message);
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiResponse>;
-      setMessage("Error checking username");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  if(userName !== ''){
     useEffect(() => {
+      const verifyUniqueUserName = async () => {
+        setMessage("");
+        try {
+          const response = await axios.get<ApiResponse>(
+            `/api/check-unique-username?user=${debounced}`
+          );
+          setMessage(response.data.message);
+        } catch (error) {
+          const axiosError = error as AxiosError<ApiResponse>;
+          setMessage("Error checking username");
+        } finally {
+          setIsLoading(false);
+        }
+      };
       verifyUniqueUserName();
     }, [userName]);
-  }
   const submitForm = async (formData: zod.infer<typeof SignUpValidation>) => {
     setIsLoading(true);
     try {
