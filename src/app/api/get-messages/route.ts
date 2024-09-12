@@ -1,6 +1,6 @@
 import dbConnect from "@/db/Connect";
 import UserModel from "@/models/UserModel";
-import { getSession } from "@/libs/Session";
+import { getSession } from "@/lib/Session";
 import mongoose from "mongoose";
 
 export async function GET(){

@@ -1,5 +1,5 @@
 import { VerificationEmail } from './../../emails/VerificationEmail';
-import { resend } from '../libs/Resend'
+import { resend } from '../lib/Resend'
 import { ApiResponse } from '@/types/ApiResponse';
 
 export type emailVerification = {

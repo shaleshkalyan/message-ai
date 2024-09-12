@@ -1,5 +1,5 @@
 import dbConnect from "@/db/Connect";
-import { setSession } from "@/libs/Session";
+import { setSession } from "@/lib/Session";
 import UserModel from "@/models/UserModel";
 import bcrypt from "bcryptjs";
 

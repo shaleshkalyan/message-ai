@@ -1,5 +1,5 @@
 import dbConnect from "@/db/Connect";
-import { getSession, setSession, unSetSession } from "@/libs/Session";
+import { getSession, setSession, unSetSession } from "@/lib/Session";
 import UserModel from "@/models/UserModel";
 
 export async function POST(request: Request) {
