@@ -9,7 +9,7 @@ export async function GET(request:Request)
         const userName = searchParams.get('user');
         const userNameExists = await UserModel.findOne({username: userName});
         if(userNameExists){
-            return Response.json({ type: 'success', message : 'Username is already taken', data : false});
+            return Response.json({ type: 'Error', message : 'Username is already taken', data : false});
         }
         return Response.json({ type: 'success', message : 'Username is unique', data : true})
     } catch (error) {

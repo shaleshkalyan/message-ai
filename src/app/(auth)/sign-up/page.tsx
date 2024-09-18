@@ -20,12 +20,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import { displayMessage } from "@/types/Messages";
+import { TypographyP } from "@/components/ui/typography";
 
 const SignUpForm = (): React.ReactNode => {
   const [userName, setUserName] = useState<String>("");
-  const [message, setMessage] = useState<String>("");
-  const [isLoading, setIsLoading] = useState<Boolean>(false);
-  const debounced = useDebounceCallback(setUserName, 300);
+  const [message, setMessage] = useState<displayMessage>({ type : 'error', message: '' });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const debounced = useDebounceCallback(setUserName, 500);
   const { toast } = useToast();
   const router = useRouter();
   const form = useForm<zod.infer<typeof SignUpValidation>>({
@@ -38,22 +40,25 @@ const SignUpForm = (): React.ReactNode => {
   });
   useEffect(() => {
     const verifyUniqueUserName = async () => {
-      setMessage("");
+      setMessage({type :'error', message : ''});
+      if (!userName) return;
       try {
         const response = await axios.get<ApiResponse>(
-          `/api/check-unique-username?user=${debounced}`
+          `/api/check-unique-username?user=${userName}`
         );
-        setMessage(response.data.message);
+        setMessage({ type : response.data.type , message : response.data.message});
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;
-        setMessage("Error checking username");
+        setMessage({ type : 'error' , message : "Error checking username"});
       } finally {
         setIsLoading(false);
       }
     };
-    // verifyUniqueUserName();
-  // }, [useDebounceValue]);
-  }, []);
+    if (userName) {
+      verifyUniqueUserName();
+    }
+  }, [userName]);
+
   const submitForm = async (formData: zod.infer<typeof SignUpValidation>) => {
     setIsLoading(true);
     try {
@@ -61,8 +66,9 @@ const SignUpForm = (): React.ReactNode => {
       toast({
         title: "success",
         description: response.data.message,
+        variant: "default",
       });
-      router.replace(`/get-messages`);
+      // router.replace(`/login`);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       const err = axiosError.response?.data.message;
@@ -89,7 +95,7 @@ const SignUpForm = (): React.ReactNode => {
             <form
               onSubmit={form.handleSubmit(submitForm)}
               className="space-y-6"
-            >
+              >
               <FormField
                 control={form.control}
                 name="username"
@@ -101,11 +107,20 @@ const SignUpForm = (): React.ReactNode => {
                         {...field}
                         onChange={(e) => {
                           e.preventDefault();
-                          field.onChange(e);
-                          debounced(e.target.value);
+                          const value = e.target.value;
+                          field.onChange(value);
+                          debounced(value);
                         }}
-                      />
+                        />
                     </FormControl>
+                        {isLoading ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Loading
+                          </>
+                        ) :
+                        <TypographyP className={message.type === 'success' ? 'text-green-500' : 'text-red-500'}>{message.message}</TypographyP>
+                        }
                     <FormMessage />
                   </FormItem>
                 )}
@@ -148,8 +163,9 @@ const SignUpForm = (): React.ReactNode => {
           </Form>
           <div className="mt-4 text-center">
             <p>
-              Already a member ? {' '} <Link href="login" className="text-blue-600 hover:text-blue-800">
-              Login Here
+              Already a member ?{" "}
+              <Link href="login" className="text-blue-600 hover:text-blue-800">
+                Login Here
               </Link>
             </p>
           </div>

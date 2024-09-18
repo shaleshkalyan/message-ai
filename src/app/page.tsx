@@ -21,7 +21,7 @@ const HomePage: React.FC = () => {
           </p>
           <Button
             className={styles.getStartedButton}
-            onClick={() => window.location.href = 'pages/sign-up'}
+            onClick={() => window.location.href = '/sign-up'}
           >
             Get Started
           </Button>

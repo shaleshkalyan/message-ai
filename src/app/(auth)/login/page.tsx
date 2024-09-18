@@ -7,7 +7,6 @@ import Link from "next/link";
 import axios, { AxiosError } from "axios";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import { SignUpValidation } from "@/app/schema/signUp";
 import { ApiResponse } from "@/types/ApiResponse";
 import {
   Form,
@@ -49,7 +48,7 @@ const Login = (): React.ReactNode => {
       toast({
         title: "Login Failed",
         description: err,
-        // variant: "destructive",
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);

@@ -1,5 +1,5 @@
 export interface ApiResponse {
-    type : string,
+    type : 'success' | 'error' | 'warning',
     message : string,
     isAcceptingMessage?: boolean,
     data ?: object
