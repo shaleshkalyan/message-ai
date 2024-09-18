@@ -8,10 +8,10 @@ export async function POST(request:Request)
     await dbConnect();
     try {
         let correctPassword = false;
-        const { email, password } = await request.json();
-        const emailExists = await UserModel.findOne({ email : email});
-        if (emailExists) {
-            correctPassword = await bcrypt.compare(password, emailExists.password); 
+        const { username, password } = await request.json();
+        const userExists = await UserModel.findOne({username});
+        if (userExists) {
+            correctPassword = await bcrypt.compare(password, userExists.password); 
         }
         if(correctPassword ==  true){
             const userToken = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
@@ -21,10 +21,10 @@ export async function POST(request:Request)
                 token : userToken,
                 tokenExpiredTill : tokenExpiry
             }
-            const updated = await UserModel.updateOne({ email : email}, update);
+            const updated = await UserModel.updateOne({username}, update);
             if (updated) {
                 setSession(updated);
-                return Response.json({ type: 'success', message : 'User Logged In Successfully !!', data : {user : emailExists, token : userToken}}) 
+                return Response.json({ type: 'success', message : 'User Logged In Successfully !!', data : {user : userExists, token : userToken}}) 
             }
             return Response.json({ type: 'error', message : 'Something went wrong'});
         }

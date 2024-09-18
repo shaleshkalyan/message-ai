@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { cn, colors } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 export interface ParagraphProps
   extends React.InputHTMLAttributes<HTMLParagraphElement> {}

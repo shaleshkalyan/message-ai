@@ -41,7 +41,7 @@ const Login = (): React.ReactNode => {
         title: "success",
         description: response.data.message,
       });
-      router.replace(`/get-messages`);
+      // router.replace(`/get-messages`);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       const err = axiosError.response?.data.message;
