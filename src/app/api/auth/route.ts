@@ -10,7 +10,7 @@ export async function POST()
         if (!userData) {
             return Response.json({ type: 'error', message : 'Session expired Please login again...'})  
         }
-        const userExists = await UserModel.findOne({ token : userData.token, email : userData.email});
+        const userExists = await UserModel.findOne({ token : userData.userToken, username : userData.userName});
         if(userExists){
             return Response.json({ type: 'success', message : 'User Authenticated !!'});
         }
