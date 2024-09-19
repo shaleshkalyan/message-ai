@@ -1,15 +1,18 @@
-import { UserType } from "@/models/UserModel";
 import { cookies } from "next/headers";
 
-
-export function getSession(){
-    const session = cookies().get("userSession")?.value;
-    if (!session){
-        return null;
-    }
-    return JSON.parse(session);
+export interface sessionType {
+  userName : string,
+  userToken : number
 }
-export function setSession(userData : object): void {
+
+export function getSession(): sessionType {
+  const session = cookies().get("userSession")?.value;
+  if (!session) {
+    return {userName : '', userToken : 0};
+  }
+  return JSON.parse(session);
+}
+export function setSession(userData: sessionType): void {
   // Create the session
   const session = JSON.stringify(userData)
   // Save the session in a cookie

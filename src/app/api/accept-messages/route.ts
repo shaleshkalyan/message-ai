@@ -6,11 +6,8 @@ export async function POST(request: Request) {
     await dbConnect();
     try {
         const { acceptingmessages } = await request.json();
-        const userData = getSession();
-        if (!userData) {
-            return Response.json({ type: 'error', message: 'Authentication Failed' });
-        }
-        const updated = await UserModel.findByIdAndUpdate(userData._id, { isAcceptingMessage: acceptingmessages }, { new: true });
+        const {userName, userToken} = getSession();
+        const updated = await UserModel.findOneAndUpdate({username : userName }, { isAcceptingMessage: acceptingmessages }, { new: true });
         if (!updated) {
             return Response.json({ type: 'error', message: 'Status updation Failed' });
         }
