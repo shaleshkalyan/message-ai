@@ -6,11 +6,11 @@ export async function POST()
 {
     await dbConnect();
     try {
-        const userData = getSession();
-        if (!userData) {
+        const {userName, email, userToken} = getSession();
+        if (userName === '' || email === '' || userToken === 0) {
             return Response.json({ type: 'error', message : 'Session expired Please login again...'})  
         }
-        const userExists = await UserModel.findOne({ token : userData.userToken, username : userData.userName});
+        const userExists = await UserModel.findOne({ token : userToken, username : userName});
         if(userExists){
             return Response.json({ type: 'success', message : 'User Authenticated !!'});
         }

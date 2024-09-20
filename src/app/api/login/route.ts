@@ -1,10 +1,8 @@
 import dbConnect from "@/db/Connect";
-import { resend } from "@/lib/Resend";
 import { setSession } from "@/lib/Session";
 import UserModel from "@/models/UserModel";
 import bcrypt from "bcryptjs";
-import { Resend } from "resend";
-import { VerificationEmail } from "../../../../emails/VerificationEmail";
+import { verificationEmail } from "@/helpers/VerificationEmail";
 
 export async function POST(request: Request) {
     await dbConnect();
@@ -23,19 +21,10 @@ export async function POST(request: Request) {
                 token: userToken,
                 tokenExpiredTill: tokenExpiry
             }
-            // const { data, error } = await resend.emails.send({
-            //     from: 'shaleshkalyan123@gmail.com',
-            //     to: [userExists.email],
-            //     subject: 'Login OTP [Mystery Message]',
-            //     react: VerificationEmail({ userName: username, otp: userToken }),
-            // });
-            // if (error) {
-            //     console.log(error);
-            //     return Response.json({ type: 'error', message: ' Error sending OTP' });
-            // }
+            verificationEmail({userName : username, email : userExists.email, otp : userToken});
             const updated = await UserModel.updateOne({ username }, update);
             if (updated) {
-                setSession({ userName: username, userToken: userToken });
+                setSession({ userName: username, email : userExists.email, userToken });
                 return Response.json({ type: 'success', message: 'User Logged In Successfully !!', data: { user: userExists, token: userToken } })
             }
             return Response.json({ type: 'error', message: 'Something went wrong' });

@@ -6,13 +6,12 @@ import mongoose from "mongoose";
 export async function GET(){
     await dbConnect();
     try {
-        const userData = getSession();
-        if (!userData) {
+        const {userName, email, userToken} = getSession();
+        if (userName === '' || email === '' || userToken === 0) {
             return Response.json({ type: 'error', message: 'Authentication Failed' });
         }
-        const userId = new mongoose.Types.ObjectId(userData._id);
         const messages = await UserModel.aggregate([
-            {$match : { id : userId}},
+            {$match : { username : userName}},
             {$unwind : '$messages'},
             {$sort : {'messages.createdAt' : -1}},
             {$group : { _id : '$_id', messages : {$push : '$messages'}}}

@@ -1,9 +1,6 @@
 import { MessageType } from './../../../models/MessageModel';
 import dbConnect from "@/db/Connect";
 import UserModel from "@/models/UserModel";
-import { getSession } from "@/lib/Session";
-import mongoose from "mongoose";
-import { use } from 'react';
 
 export async function POST(request : Request){
     await dbConnect();
