@@ -30,7 +30,7 @@ const Verify = (): React.ReactNode => {
         title: "success",
         description: response.data.message,
       });
-      router.replace(`/messages`);
+      router.replace(`/dashboard`);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       const err = axiosError.response?.data.message;
