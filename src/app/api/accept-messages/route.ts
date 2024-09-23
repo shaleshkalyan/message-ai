@@ -30,7 +30,7 @@ export async function GET(request: Request) {
             return Response.json({ type: 'error', message: 'User Not Found' });
         }
 
-        return Response.json({ type: 'success', message: 'Status retrieved successfully !!', data: foundUser.isAcceptingMessage });
+        return Response.json({ type: 'success', message: 'Status retrieved successfully !!', isAcceptingMessage : foundUser.isAcceptingMessage });
     } catch (error) {
         console.log('Error occured on fetching status :' + error);
         return Response.json({ type: 'error', message: 'Something went wrong !' })
