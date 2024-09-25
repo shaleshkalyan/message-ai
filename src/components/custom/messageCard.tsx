@@ -51,13 +51,13 @@ const MessageCard = ({ message, onDelete }: MessageCardProps) => {
     }
   };
   return (
-    <Card>
+    <Card className="max-w-xs" x-chunk="charts-01-chunk-2">
       <CardHeader>
-        <CardTitle>Card Title</CardTitle>
+        <CardTitle>{message.content}</CardTitle>
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant="destructive">
-              <X className="w-5" />
+              <X className="h-2 w-2" />
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
@@ -76,9 +76,10 @@ const MessageCard = ({ message, onDelete }: MessageCardProps) => {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-        <CardDescription>Card Description</CardDescription>
       </CardHeader>
-      <CardContent></CardContent>
+      <CardContent>
+        <CardDescription>Recieved on {message.createdAt}</CardDescription>
+      </CardContent>
     </Card>
   );
 };
