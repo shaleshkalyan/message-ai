@@ -18,14 +18,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "@/hooks/use-toast";
 import * as z from "zod";
 import { ApiResponse } from "@/types/ApiResponse";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { messageValidation } from "@/app/schema/message";
 
-const { toast } = useToast();
 const specialChar = "||";
 
 const parseStringMessages = (messageString: string): string[] => {
@@ -126,7 +125,7 @@ export default function SendMessage() {
                 Please wait
               </Button>
             ) : (
-              <Button type="submit" disabled={isLoading || !messageContent}>
+              <Button className="bg-gray-800" type="submit" disabled={isLoading || !messageContent}>
                 Send
               </Button>
             )}
@@ -138,10 +137,10 @@ export default function SendMessage() {
         <div className="space-y-2">
           <Button
             onClick={fetchSuggestedMessages}
-            className="my-4"
+            className="my-4 bg-gray-800"
             disabled={isSuggestLoading}
           >
-            Suggest Messages
+            Get messages from AI
           </Button>
           <p>Click on any message below to select it.</p>
         </div>
@@ -169,9 +168,9 @@ export default function SendMessage() {
       </div>
       <Separator className="my-6" />
       <div className="text-center">
-        <div className="mb-4">Get Your Message Board</div>
+        <div className="mb-4">Go To Your Message Board</div>
         <Link href={"/sign-up"}>
-          <Button>Create Your Account</Button>
+          <Button className="bg-gray-800">Create Your Account</Button>
         </Link>
       </div>
     </div>
