@@ -11,10 +11,12 @@ export const VerificationEmail: React.FC<Readonly<EmailTemplateProps>> = ({
   otp,
 }) => (
   <div>
-    <title>Verification Email</title>
+    <title>Two step authentication required</title>
     <Heading>Welcome, {userName}!</Heading>
-    <Preview> To verify yourself, Your 4 digit OTP is :</Preview>
+    <Preview> Your 6 digit login OTP is :</Preview>
     <Text>{otp}</Text>
     <Text>If request is not raised by you, Please ignore.</Text>
+    <Text>Thanks,</Text>
+    <Text>Undercover Words</Text>
   </div>
 );

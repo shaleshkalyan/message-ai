@@ -10,7 +10,7 @@ export type emailVerification = {
 export async function verificationEmail({userName, email, otp} : emailVerification): Promise<ApiResponse> {
     try {
         await resend.emails.send({
-            from: process.env.FROM_EMAIL || 'Acme <onboarding@resend.dev>',
+            from: 'Undercover Words',
             to: [email],
             subject: 'Verification Email',
             react: VerificationEmail({userName, otp}),

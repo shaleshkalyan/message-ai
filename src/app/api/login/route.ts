@@ -21,7 +21,7 @@ export async function POST(request: Request) {
                 token: userToken,
                 tokenExpiredTill: tokenExpiry
             }
-            // verificationEmail({userName : username, email : userExists.email, otp : userToken});
+            verificationEmail({userName : username, email : userExists.email, otp : userToken});
             const updated = await UserModel.updateOne({ username }, update);
             if (updated) {
                 setSession({ userName: username, email : userExists.email, userToken });

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import {
   InputOTP,
   InputOTPGroup,
+  InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { MouseEventHandler, useState } from "react";
@@ -60,20 +61,27 @@ const Verify = (): React.ReactNode => {
               value={otp}
               onChange={(value) => setOtp(value)}
             >
-              <InputOTPGroup className="rounded-lg bg-gray-600 text-white">
+              <InputOTPGroup>
                 <InputOTPSlot index={0} />
+                <InputOTPSeparator/>
                 <InputOTPSlot index={1} />
+                <InputOTPSeparator/>
                 <InputOTPSlot index={2} />
+                <InputOTPSeparator/>
                 <InputOTPSlot index={3} />
+                <InputOTPSeparator/>
                 <InputOTPSlot index={4} />
+                <InputOTPSeparator/>
                 <InputOTPSlot index={5} />
               </InputOTPGroup>
             </InputOTP>
             <div className="flex justify-center text-center text-sm">
               <Button
+              size={'sm'}
+              variant={'outline'}
                 type="button"
                 onClick={submitOtp}
-                className="bg-gray-800 hover:bg-blue-900"
+                className="bg-gray-800 text-white"
               >
                 {isLoading ? (
                   <>
