@@ -25,7 +25,10 @@ import { TypographyP } from "@/components/ui/typography";
 
 const SignUpForm = (): React.ReactNode => {
   const [userName, setUserName] = useState<String>("");
-  const [message, setMessage] = useState<displayMessage>({ type : 'error', message: '' });
+  const [message, setMessage] = useState<displayMessage>({
+    type: "error",
+    message: "",
+  });
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const debounced = useDebounceCallback(setUserName, 500);
   const { toast } = useToast();
@@ -40,16 +43,19 @@ const SignUpForm = (): React.ReactNode => {
   });
   useEffect(() => {
     const verifyUniqueUserName = async () => {
-      setMessage({type :'error', message : ''});
+      setMessage({ type: "error", message: "" });
       if (!userName) return;
       try {
         const response = await axios.get<ApiResponse>(
           `/api/check-unique-username?user=${userName}`
         );
-        setMessage({ type : response.data.type , message : response.data.message});
+        setMessage({
+          type: response.data.type,
+          message: response.data.message,
+        });
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;
-        setMessage({ type : 'error' , message : "Error checking username"});
+        setMessage({ type: "error", message: "Error checking username" });
       } finally {
         setIsLoading(false);
       }
@@ -82,20 +88,22 @@ const SignUpForm = (): React.ReactNode => {
     }
   };
   return (
-    <div className="flex justify-center items-center min-h-screen bg-grey-100">
-      <div className="wfull max-w-md p-8 space-y-8 rounded-lg shadow-md">
-        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-center">
-          Join Mystery Message
-        </h1>
-        <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-center">
-          Sign up to start your anonymous adventure
-        </h2>
+    <div className="flex justify-center items-center min-h-screen bg-gray-800">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md m-2">
+        <div className="text-center">
+          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
+            Undercover Words!
+          </h1>
+          <h2 className="pb-2 border-b text-3xl font-semibold tracking-tight first:mt-0 text-center">
+            Join us in Undercover Words! Are you excited to explore?
+          </h2>
+        </div>
         <div>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(submitForm)}
               className="space-y-6"
-              >
+            >
               <FormField
                 control={form.control}
                 name="username"
@@ -111,16 +119,24 @@ const SignUpForm = (): React.ReactNode => {
                           field.onChange(value);
                           debounced(value);
                         }}
-                        />
+                      />
                     </FormControl>
-                        {isLoading ? (
-                          <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Loading
-                          </>
-                        ) :
-                        <TypographyP className={message.type === 'success' ? 'text-green-500' : 'text-red-500'}>{message.message}</TypographyP>
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Loading
+                      </>
+                    ) : (
+                      <TypographyP
+                        className={
+                          message.type === "success"
+                            ? "text-green-500"
+                            : "text-red-500"
                         }
+                      >
+                        {message.message}
+                      </TypographyP>
+                    )}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -149,7 +165,7 @@ const SignUpForm = (): React.ReactNode => {
                   </FormItem>
                 )}
               />
-              <Button type="submit">
+              <Button type="submit" className="w-full bg-gray-800 hover:bg-blue-900">
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -164,7 +180,7 @@ const SignUpForm = (): React.ReactNode => {
           <div className="mt-4 text-center">
             <p>
               Already a member ?{" "}
-              <Link href="login" className="text-blue-600 hover:text-blue-800">
+              <Link href="login" className="text-blue-900 hover:text-gray-800">
                 Login Here
               </Link>
             </p>

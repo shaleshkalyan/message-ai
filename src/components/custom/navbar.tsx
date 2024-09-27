@@ -7,12 +7,13 @@ import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
+import { Loader2 } from "lucide-react";
 
 const Navbar = () => {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
-  const userName = '';
-//   const { userName, email, userToken } = getSession();
+  const userName = "";
+  //   const { userName, email, userToken } = getSession();
   const logoutUser = async () => {
     setIsLoading(true);
     try {
@@ -36,22 +37,37 @@ const Navbar = () => {
     }
   };
   return (
-    <nav className="p-4 md:p-6 shadow-md">
-      <div className="container mx-auto flex flex-col md:flex-row justify-between item-center">
+    <nav className="p-4 md:p-6 shadow-md bg-gray-900 text-white">
+      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
         <a href="#" className="text-xl font-bold mb-4 md:mb-0">
-          Mystery Message
+          Undercover Words
         </a>
-        {userName !== '' ? (
+        {userName ? (
           <>
-            <span className="mr-4">Welcome {userName}</span>
-            {/* <Avtar/> */}
-            <Button className="w-full md:w-auto" onClick={logoutUser}>
+            <span className="mr-4">Welcome, {userName}</span>
+            <Button
+              onClick={logoutUser}
+              className="w-full md:w-auto bg-slate-100 text-black"
+              variant="outline"
+            >
               Logout
             </Button>
           </>
         ) : (
           <Link href="/login">
-            <Button className="w-full md:w-auto">Login</Button>
+            <Button
+              className="w-full md:w-auto bg-slate-100 text-black"
+              variant={"outline"}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Loading
+                </>
+              ) : (
+                "Login"
+              )}
+            </Button>
           </Link>
         )}
       </div>

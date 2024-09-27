@@ -13,6 +13,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -31,8 +32,7 @@ const Login = (): React.ReactNode => {
       password: "",
     },
   });
-  
- 
+
   const submitForm = async (formData: zod.infer<typeof LoginValidation>) => {
     setIsLoading(true);
     try {
@@ -55,48 +55,46 @@ const Login = (): React.ReactNode => {
     }
   };
   return (
-    <div className="flex justify-center items-center min-h-screen bg-grey-100">
-      <div className="wfull max-w-md p-8 space-y-8 rounded-lg shadow-md">
-        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl text-center">
-          Welcome Back to Mystery Message
-        </h1>
-        <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-center">
-          Login Here to see your secret admirer
-        </h2>
-        <div>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(submitForm)}
-              className="space-y-6"
-            >
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        placeholder="User Name"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input type="Password" placeholder="Password" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit">
+    <div className="flex justify-center items-center min-h-screen bg-gray-800">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md m-2">
+        <div className="text-center">
+          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
+            Undercover Words!
+          </h1>
+          <h2 className="pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-center">
+            Are you ready to uncover some hidden secrets?
+          </h2>
+          <p className="pb-2 border-b mb-4">
+            Login Here to see your secret admirer
+          </p>
+        </div>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(submitForm)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="User Name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input type="Password" placeholder="Password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+              <Button className="w-full bg-gray-800 hover:bg-blue-900" type="submit">
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -106,15 +104,15 @@ const Login = (): React.ReactNode => {
                   "Login"
                 )}
               </Button>
-            </form>
-          </Form>
-          <div className="mt-4 text-center">
-            <p>
-              New Member ? {' '} <Link href="sign-up" className="text-blue-600 hover:text-blue-800">
+          </form>
+        </Form>
+        <div className="mt-4 text-center">
+          <p>
+            New Member ?{" "}
+            <Link href="sign-up" className="text-blue-900 hover:text-gray-800">
               Sign Up Here
-              </Link>
-            </p>
-          </div>
+            </Link>
+          </p>
         </div>
       </div>
     </div>
