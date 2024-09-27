@@ -10,11 +10,12 @@ import { MessageType } from "@/models/MessageModel";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
-import { Bell } from "lucide-react";
+import { Bell, Loader2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const Dashboard = () => {
+  const userName = "shell";
   const [messages, setMessages] = useState<MessageType[] | []>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false);
@@ -115,49 +116,90 @@ const Dashboard = () => {
       setIsSwitchLoading(false);
     }
   };
+
+  const baseUrl = `${window.location.protocol}//${window.location.host}`;
+  const profileUrl = `${baseUrl}/u/${userName}`;
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(profileUrl);
+    toast({
+      title: "URL Copied!",
+      description: "Profile URL has been copied to clipboard.",
+    });
+  };
   const userMessages = [
     {
       content: "first message",
-      createdAt: '2024-09-23',
+      createdAt: "2024-09-23",
     },
     {
       content: "second message",
-      createdAt: '2024-09-24',
+      createdAt: "2024-09-24",
     },
     {
       content: "third message",
-      createdAt: '2024-09-25',
+      createdAt: "2024-09-25",
     },
   ];
   return (
-    <main className="my-8 flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-      <div className="grid gap-4 md:gap-8 lg:grid-rows-2 xl:grid-rows-3">
-        <div className="mb-4">
+    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
+      <div className="mb-4 container mx-auto flex flex-col md:flex-row justify-between items-center">
+        <div className="flex flex-row items-center">
+          <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>{" "}
+          <input
+            type="text"
+            value={profileUrl}
+            disabled
+            className="input input-bordered w-full p-2 mr-2"
+          />
+          <Button
+            className="bg-gray-800 hover:bg-blue-900"
+            onClick={copyToClipboard}
+          >
+            Copy
+          </Button>
+        </div>
+        <div className="mb-4 p-4 flex flex-col justify-center items-center">
+          <span className="ml-2">
+            Accept Messages: {isAcceptMessages ? "On" : "Off"}
+          </span>
           <Switch
             {...register("acceptMessages")}
             checked={isAcceptMessages}
             onCheckedChange={handleSwitchChange}
             disabled={isSwitchLoading}
           />
-          <span className="ml-2">
-            Accepting Messages : {isAcceptMessages ? "On" : "Off"}
-          </span>
         </div>
-        <Separator />
-        <Button variant="ghost" size="icon" className="shrink-0" onClick={() => fetchAllMessages(true)}>
+      </div>
+
+      <Separator />
+      <Button
+        className="mt-4 bg-gray-800"
+        onClick={(e) => {
+          e.preventDefault();
+          fetchAllMessages(true);
+        }}
+      >
+        {isLoading ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : (
           <Bell className="h-4 w-4" />
-        </Button>
-        <div className="grid w-full flex-4 gap-6 lg:max-w-[20rem]">
-          {userMessages.map((messageData, index) => (
+        )}
+      </Button>
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+        {userMessages.length > 0 ? (
+          userMessages.map((messageData, index) => (
             <MessageCard
               key={index}
               message={messageData}
               onDelete={handleDeleteMessage}
             />
-          ))}
-        </div>
+          ))
+        ) : (
+          <p>No messages to display.</p>
+        )}
       </div>
-    </main>
+    </div>
   );
 };
 

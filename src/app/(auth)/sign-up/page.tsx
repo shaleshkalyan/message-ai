@@ -165,16 +165,21 @@ const SignUpForm = (): React.ReactNode => {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full bg-gray-800 hover:bg-blue-900">
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Loading
-                  </>
-                ) : (
-                  "Sign Up"
-                )}
-              </Button>
+              <div className="flex justify-center">
+                <Button
+                  type="submit"
+                  className="bg-gray-800 hover:bg-blue-900"
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Please wait
+                    </>
+                  ) : (
+                    "Sign Up"
+                  )}
+                </Button>
+              </div>
             </form>
           </Form>
           <div className="mt-4 text-center">

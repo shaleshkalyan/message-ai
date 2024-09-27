@@ -50,36 +50,43 @@ const MessageCard = ({ message, onDelete }: MessageCardProps) => {
       setIsLoading(false);
     }
   };
+  const dateFormat = (date : string): string => {
+    let result =  new Date(date).toDateString();
+    return result; 
+  }
   return (
-    <Card className="max-w-xs" x-chunk="charts-01-chunk-2">
+    <Card className="card-bordered bg-gray-800">
       <CardHeader>
-        <CardTitle>{message.content}</CardTitle>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="destructive">
-              <X className="h-2 w-2" />
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleConfirmation}>
-                Continue
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <div className="flex justify-between items-center">
+          <CardTitle className="text-white">{message.content}</CardTitle>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="outline">
+                <X className="w-5 h-5" />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your account and remove your data from our servers.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleConfirmation}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+        <div className="text-sm text-white">
+          {dateFormat(message.createdAt)}
+        </div>
       </CardHeader>
-      <CardContent>
-        <CardDescription>Recieved on {message.createdAt}</CardDescription>
-      </CardContent>
+      <CardContent></CardContent>
     </Card>
   );
 };

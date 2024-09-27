@@ -22,15 +22,18 @@ const Verify = (): React.ReactNode => {
     event.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post<ApiResponse>(
-        `/api/verify-user`,
-        { otpValue: otp }
-      );
+      const response = await axios.post<ApiResponse>(`/api/verify-user`, {
+        otpValue: otp,
+      });
       toast({
         title: "success",
         description: response.data.message,
       });
-      router.replace(`/dashboard`);
+      if (response.data.type === "success") {
+        router.replace(`/dashboard`);
+      } else {
+        router.replace(`/login`);
+      }
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       const err = axiosError.response?.data.message;
@@ -45,8 +48,8 @@ const Verify = (): React.ReactNode => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-grey-100">
-      <div className="wfull max-w-md p-8 space-y-8 rounded-lg shadow-md">
+    <div className="flex justify-center items-center min-h-screen bg-gray-800">
+      <div className="wfull max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
         <div>
           <div className="text-center text-sm">
             Please enter your one-time password.
@@ -57,7 +60,7 @@ const Verify = (): React.ReactNode => {
               value={otp}
               onChange={(value) => setOtp(value)}
             >
-              <InputOTPGroup>
+              <InputOTPGroup className="rounded-lg bg-gray-600 text-white">
                 <InputOTPSlot index={0} />
                 <InputOTPSlot index={1} />
                 <InputOTPSlot index={2} />
@@ -66,12 +69,16 @@ const Verify = (): React.ReactNode => {
                 <InputOTPSlot index={5} />
               </InputOTPGroup>
             </InputOTP>
-            <div className="text-center text-sm">
-              <Button type="button" onClick={submitOtp}>
+            <div className="flex justify-center text-center text-sm">
+              <Button
+                type="button"
+                onClick={submitOtp}
+                className="bg-gray-800 hover:bg-blue-900"
+              >
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Loading
+                    Please wait
                   </>
                 ) : (
                   "Submit OTP"

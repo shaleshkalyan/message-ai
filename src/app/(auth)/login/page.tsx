@@ -94,16 +94,18 @@ const Login = (): React.ReactNode => {
                 </FormItem>
               )}
             />
-              <Button className="w-full bg-gray-800 hover:bg-blue-900" type="submit">
+            <div className="flex justify-center">
+              <Button className="bg-gray-800 hover:bg-blue-900" type="submit">
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Loading
+                    Please wait
                   </>
                 ) : (
                   "Login"
                 )}
               </Button>
+            </div>
           </form>
         </Form>
         <div className="mt-4 text-center">
