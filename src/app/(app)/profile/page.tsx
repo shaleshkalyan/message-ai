@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import axios, { AxiosError } from 'axios';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { CardHeader, CardContent, Card } from '@/components/ui/card';
-import { useCompletion } from 'ai/react';
+import React, { useState } from "react";
+import axios, { AxiosError } from "axios";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { CardHeader, CardContent, Card } from "@/components/ui/card";
+import { useCompletion } from "ai/react";
 import {
   Form,
   FormControl,
@@ -16,17 +16,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Textarea } from '@/components/ui/textarea';
+} from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import * as z from 'zod';
-import { ApiResponse } from '@/types/ApiResponse';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { messageValidation } from '@/app/schema/message';
+import * as z from "zod";
+import { ApiResponse } from "@/types/ApiResponse";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { messageValidation } from "@/app/schema/message";
 
 const { toast } = useToast();
-const specialChar = '||';
+const specialChar = "||";
 
 const parseStringMessages = (messageString: string): string[] => {
   return messageString.split(specialChar);
@@ -45,7 +45,7 @@ export default function SendMessage() {
     isLoading: isSuggestLoading,
     error,
   } = useCompletion({
-    api: '/api/suggest-messages',
+    api: "/api/suggest-messages",
     initialCompletion: initialMessageString,
   });
 
@@ -53,10 +53,10 @@ export default function SendMessage() {
     resolver: zodResolver(messageValidation),
   });
 
-  const messageContent = form.watch('content');
+  const messageContent = form.watch("content");
 
   const handleMessageClick = (message: string) => {
-    form.setValue('content', message);
+    form.setValue("content", message);
   };
 
   const [isLoading, setIsLoading] = useState(false);
@@ -64,23 +64,23 @@ export default function SendMessage() {
   const onSubmit = async (data: z.infer<typeof messageValidation>) => {
     setIsLoading(true);
     try {
-      const response = await axios.post<ApiResponse>('/api/send-message', {
+      const response = await axios.post<ApiResponse>("/api/send-message", {
         ...data,
         username,
       });
 
       toast({
         title: response.data.message,
-        variant: 'default',
+        variant: "default",
       });
-      form.reset({ ...form.getValues(), content: '' });
+      form.reset({ ...form.getValues(), content: "" });
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
-        title: 'Error',
+        title: "Error",
         description:
-          axiosError.response?.data.message ?? 'Failed to sent message',
-        variant: 'destructive',
+          axiosError.response?.data.message ?? "Failed to sent message",
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -89,9 +89,9 @@ export default function SendMessage() {
 
   const fetchSuggestedMessages = async () => {
     try {
-      complete('');
+      complete("");
     } catch (error) {
-      console.error('Error fetching messages:', error);
+      console.error("Error fetching messages:", error);
     }
   };
 
@@ -170,7 +170,7 @@ export default function SendMessage() {
       <Separator className="my-6" />
       <div className="text-center">
         <div className="mb-4">Get Your Message Board</div>
-        <Link href={'/sign-up'}>
+        <Link href={"/sign-up"}>
           <Button>Create Your Account</Button>
         </Link>
       </div>
