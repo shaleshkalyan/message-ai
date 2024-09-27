@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Loader2 } from "lucide-react";
+import { Loader2, CopyIcon, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
@@ -93,7 +93,13 @@ export default function SendMessage() {
       console.error("Error fetching messages:", error);
     }
   };
-
+  const copyToClipboard = (data: string) => {
+    navigator.clipboard.writeText(data);
+    toast({
+      title: "URL Copied!",
+      description: "Data has been copied to clipboard.",
+    });
+  };
   return (
     <div className="container mx-auto my-8 p-6 bg-white rounded max-w-4xl">
       <h1 className="text-4xl font-bold mb-6 text-center">
@@ -125,7 +131,11 @@ export default function SendMessage() {
                 Please wait
               </Button>
             ) : (
-              <Button className="bg-gray-800" type="submit" disabled={isLoading || !messageContent}>
+              <Button
+                className="bg-gray-800"
+                type="submit"
+                disabled={isLoading || !messageContent}
+              >
                 Send
               </Button>
             )}
@@ -136,8 +146,10 @@ export default function SendMessage() {
       <div className="space-y-4 my-8">
         <div className="space-y-2">
           <Button
+            size="sm"
+            variant={"outline"}
             onClick={fetchSuggestedMessages}
-            className="my-4 bg-gray-800"
+            className="my-4 bg-gray-800 text-white"
             disabled={isSuggestLoading}
           >
             Get messages from AI
@@ -150,17 +162,47 @@ export default function SendMessage() {
           </CardHeader>
           <CardContent className="flex flex-col space-y-4">
             {error ? (
-              <p className="text-red-500">{error.message}</p>
+              <div className="flex flex-row justify-between">
+                <Textarea
+                  disabled
+                  className="text-red-800"
+                  value={error.message}
+                />
+                <Button
+                  className="m-2"
+                  variant="destructive"
+                  size="sm"
+                  onClick={(event) => copyToClipboard(error.message)}
+                >
+                  <CopyIcon />
+                </Button>
+              </div>
             ) : (
               parseStringMessages(completion).map((message, index) => (
-                <Button
-                  key={index}
-                  variant="outline"
-                  className="mb-2"
-                  onClick={() => handleMessageClick(message)}
-                >
-                  {message}
-                </Button>
+                <div className="flex flex-row">
+                  <input
+                    type="text"
+                    value={message}
+                    disabled
+                    className="input input-bordered w-full p-2 mr-2"
+                  />
+                  <Button
+                    variant={"outline"}
+                    className="m-2 bg-gray-800 text-white"
+                    size="sm"
+                    onClick={(event) => handleMessageClick(message)}
+                  >
+                    <Send />
+                  </Button>
+                  <Button
+                    className="m-2 bg-gray-800 text-white"
+                    variant="outline"
+                    size="sm"
+                    onClick={(event) => copyToClipboard(message)}
+                  >
+                    <CopyIcon />
+                  </Button>
+                </div>
               ))
             )}
           </CardContent>
@@ -170,7 +212,13 @@ export default function SendMessage() {
       <div className="text-center">
         <div className="mb-4">Go To Your Message Board</div>
         <Link href={"/sign-up"}>
-          <Button className="bg-gray-800">Create Your Account</Button>
+          <Button
+            className="m-2 bg-gray-800 text-white"
+            size="sm"
+            variant={"outline"}
+          >
+            Create Your Account
+          </Button>
         </Link>
       </div>
     </div>

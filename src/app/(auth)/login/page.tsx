@@ -95,7 +95,12 @@ const Login = (): React.ReactNode => {
               )}
             />
             <div className="flex justify-center">
-              <Button className="bg-gray-800 hover:bg-blue-900" type="submit">
+              <Button
+                size="sm"
+                variant={"outline"}
+                className="bg-gray-800 text-white"
+                type="submit"
+              >
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

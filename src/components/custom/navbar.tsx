@@ -42,44 +42,32 @@ const Navbar = () => {
         <a href="#" className="text-xl font-bold mb-4 md:mb-0">
           Undercover Words
         </a>
-        <div className="container mx-auto flex flex-col md:flex-row flex-end items-center">
-          <Link href="/profile">
+        {userName ? (
+          <>
+            <span className="mr-4">Welcome, {userName}</span>
+            <Button
+              onClick={logoutUser}
+              className="w-full md:w-auto bg-slate-100 text-black"
+              variant="outline"
+            >
+              Logout
+            </Button>
+          </>
+        ) : (
             <Button
               className="w-full md:w-auto bg-slate-100 text-black"
               variant={"outline"}
             >
-              Send Secret Message
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Loading
+                </>
+              ) : (
+                "Login"
+              )}
             </Button>
-          </Link>
-          {userName ? (
-            <>
-              <span className="mr-4">Welcome, {userName}</span>
-              <Button
-                onClick={logoutUser}
-                className="w-full md:w-auto bg-slate-100 text-black"
-                variant="outline"
-              >
-                Logout
-              </Button>
-            </>
-          ) : (
-            <Link href="/login">
-              <Button
-                className="w-full md:w-auto bg-slate-100 text-black"
-                variant={"outline"}
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Loading
-                  </>
-                ) : (
-                  "Login"
-                )}
-              </Button>
-            </Link>
-          )}
-        </div>
+        )}
       </div>
     </nav>
   );

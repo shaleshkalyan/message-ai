@@ -167,8 +167,10 @@ const SignUpForm = (): React.ReactNode => {
               />
               <div className="flex justify-center">
                 <Button
+                  size="sm"
+                  variant={"outline"}
                   type="submit"
-                  className="bg-gray-800 hover:bg-blue-900"
+                  className="bg-gray-800 text-white"
                 >
                   {isLoading ? (
                     <>

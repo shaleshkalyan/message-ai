@@ -10,7 +10,7 @@ import { MessageType } from "@/models/MessageModel";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
-import { Bell, Loader2 } from "lucide-react";
+import { Bell, Loader2, CopyIcon } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -153,10 +153,12 @@ const Dashboard = () => {
             className="input input-bordered w-full p-2 mr-2"
           />
           <Button
-            className="bg-gray-800 hover:bg-blue-900"
+            size="sm"
+            variant={"outline"}
+            className="bg-gray-800 text-white"
             onClick={copyToClipboard}
           >
-            Copy
+            <CopyIcon />
           </Button>
         </div>
         <div className="mb-4 p-4 flex flex-col justify-center items-center">
@@ -164,6 +166,7 @@ const Dashboard = () => {
             Accept Messages: {isAcceptMessages ? "On" : "Off"}
           </span>
           <Switch
+            className="space-x-2"
             {...register("acceptMessages")}
             checked={isAcceptMessages}
             onCheckedChange={handleSwitchChange}
@@ -174,7 +177,9 @@ const Dashboard = () => {
 
       <Separator />
       <Button
-        className="mt-4 bg-gray-800"
+        size="sm"
+        variant={"outline"}
+        className="m-4 bg-gray-800 text-white"
         onClick={(e) => {
           e.preventDefault();
           fetchAllMessages(true);
