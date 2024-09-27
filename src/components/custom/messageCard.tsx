@@ -50,10 +50,10 @@ const MessageCard = ({ message, onDelete }: MessageCardProps) => {
       setIsLoading(false);
     }
   };
-  const dateFormat = (date : string): string => {
-    let result =  new Date(date).toDateString();
-    return result; 
-  }
+  const dateFormat = (date: string): string => {
+    let result = new Date(date).toDateString();
+    return result;
+  };
   return (
     <Card className="card-bordered bg-gray-800">
       <CardHeader>
@@ -61,8 +61,12 @@ const MessageCard = ({ message, onDelete }: MessageCardProps) => {
           <CardTitle className="text-white">{message.content}</CardTitle>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="outline">
-                <X className="w-5 h-5" />
+              <Button
+                size={"sm"}
+                variant="outline"
+                className="bg-gray-800 text-white"
+              >
+                <X className="w-4 h-4" />
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
