@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
 import Link from "next/link";
 import axios, { AxiosError } from "axios";
-import { useDebounceCallback, useDebounceValue } from "usehooks-ts";
+import { useDebounceCallback } from "usehooks-ts";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { SignUpValidation } from "@/app/schema/signUp";
@@ -24,7 +24,7 @@ import { displayMessage } from "@/types/Messages";
 import { TypographyP } from "@/components/ui/typography";
 
 const SignUpForm = (): React.ReactNode => {
-  const [userName, setUserName] = useState<String>("");
+  const [userName, setUserName] = useState<string>("");
   const [message, setMessage] = useState<displayMessage>({
     type: "error",
     message: "",
@@ -74,7 +74,7 @@ const SignUpForm = (): React.ReactNode => {
           title: "success",
           description: response.data.message,
         });
-        router.replace(`/login`);
+        router.push(`/login`);
       } else {
         toast({
           title: response.data.type,

@@ -31,14 +31,14 @@ const Verify = (): React.ReactNode => {
           title: response.data.type,
           description: response.data.message,
         });
-        router.replace(`/dashboard`);
+        router.push(`/dashboard`);
       } else {
         toast({
           title: response.data.type,
           description: response.data.message,
           variant: "destructive",
         });
-        router.replace(`/login`);
+        router.push(`/login`);
       }
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;

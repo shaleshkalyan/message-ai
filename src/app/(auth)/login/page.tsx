@@ -45,14 +45,13 @@ const Login = (): React.ReactNode => {
           description: response.data.message,
         });
         // Check if response.data.data has the expected structure
-        let stateData = response.data?.userData;
+        let stateData = response.data?.userData;        
         // Ensure you handle potential undefined values
         if (!stateData) {
           stateData = initialAuthState;
         }
-        console.log(stateData);
-        authAction({ type: "LOGIN", payload: stateData });
-        router.replace(`/verify`);
+        await authAction({ type: "LOGIN", payload: stateData });
+        router.push(`/verify`);
       } else {
         toast({
           title: response.data.type,

@@ -24,7 +24,7 @@ export const AuthContextProvider = ({
   const { Provider: AuthContextProvider } = AuthContext;
   const handleAuth = ({
     type: action,
-    payload: currrentState = initialAuthState,
+    payload: currrentState,
   }: authActionType) => {
     dispatch({ type: action, payload: currrentState });
   };
