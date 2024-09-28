@@ -32,11 +32,11 @@ const Verify = (): React.ReactNode => {
           description: response.data.message,
         });
         router.replace(`/dashboard`);
-      }else{
+      } else {
         toast({
           title: response.data.type,
           description: response.data.message,
-          variant:"destructive"
+          variant: "destructive",
         });
         router.replace(`/login`);
       }
@@ -68,22 +68,22 @@ const Verify = (): React.ReactNode => {
             >
               <InputOTPGroup>
                 <InputOTPSlot index={0} />
-                <InputOTPSeparator/>
+                <InputOTPSeparator />
                 <InputOTPSlot index={1} />
-                <InputOTPSeparator/>
+                <InputOTPSeparator />
                 <InputOTPSlot index={2} />
-                <InputOTPSeparator/>
+                <InputOTPSeparator />
                 <InputOTPSlot index={3} />
-                <InputOTPSeparator/>
+                <InputOTPSeparator />
                 <InputOTPSlot index={4} />
-                <InputOTPSeparator/>
+                <InputOTPSeparator />
                 <InputOTPSlot index={5} />
               </InputOTPGroup>
             </InputOTP>
             <div className="flex justify-center text-center text-sm">
               <Button
-              size={'sm'}
-              variant={'outline'}
+                size={"sm"}
+                variant={"outline"}
                 type="button"
                 onClick={submitOtp}
                 className="bg-gray-800 text-white"

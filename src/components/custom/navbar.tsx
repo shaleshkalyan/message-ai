@@ -7,24 +7,14 @@ import { toast } from "@/hooks/use-toast";
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
 import { Loader2 } from "lucide-react";
-import { initialAuthState, useAuthContext } from "@/contexts/AuthProvider";
+import { initialAuthState } from "@/providers/AuthProvider";
 import { Avatar, AvatarFallback } from "../ui/avatar";
+import { useAuthContext } from "@/hooks/UseAuth";
 
 const Navbar = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   let { authState, authAction } = useAuthContext();
-  useEffect(() => {
-    if (
-      authState.userName === "" ||
-      authState.email === "" ||
-      authState.userToken == 0 ||
-      authState.tokenExpiry === null ||
-      new Date(authState.tokenExpiry) > new Date()
-    ) {
-      authAction({ type: "LOGOUT", payload: initialAuthState });
-    }
-  }, [authState, router]);
   const logoutUser = async () => {
     setIsLoading(true);
     try {

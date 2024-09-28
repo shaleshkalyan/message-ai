@@ -19,7 +19,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { LoginValidation } from "@/app/schema/login";
-import { useAuthContext } from "@/contexts/AuthProvider";
+import { initialAuthState } from "@/providers/AuthProvider";
+import { useAuthContext } from "@/hooks/UseAuth";
 
 const Login = (): React.ReactNode => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
@@ -38,18 +39,25 @@ const Login = (): React.ReactNode => {
     setIsLoading(true);
     try {
       const response = await axios.post<ApiResponse>(`/api/login`, formData);
-      if(response.data.type === 'success'){
+      if (response.data.type === "success") {
         toast({
           title: response.data.type,
           description: response.data.message,
         });
-        authAction({ type: "LOGIN", payload: authState });
+        // Check if response.data.data has the expected structure
+        let stateData = response.data?.userData;
+        // Ensure you handle potential undefined values
+        if (!stateData) {
+          stateData = initialAuthState;
+        }
+        console.log(stateData);
+        authAction({ type: "LOGIN", payload: stateData });
         router.replace(`/verify`);
-      }else{
+      } else {
         toast({
           title: response.data.type,
           description: response.data.message,
-          variant:"destructive"
+          variant: "destructive",
         });
       }
     } catch (error) {

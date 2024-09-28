@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
+import { useAuthContext } from "@/hooks/UseAuth";
 import { MessageType } from "@/models/MessageModel";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,7 +14,6 @@ import axios, { AxiosError } from "axios";
 import { Bell, Loader2, CopyIcon } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useAuthContext } from "@/contexts/AuthProvider";
 
 const Dashboard = () => {
   let { authState, authAction } = useAuthContext();
