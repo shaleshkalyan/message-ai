@@ -13,18 +13,19 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { LoginValidation } from "@/app/schema/login";
+import { useAuthContext } from "@/global-context/AuthProvider";
 
 const Login = (): React.ReactNode => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const { toast } = useToast();
   const router = useRouter();
+  const {sessionData, setSessionData} = useAuthContext();
   const form = useForm<zod.infer<typeof LoginValidation>>({
     resolver: zodResolver(LoginValidation),
     defaultValues: {
@@ -41,6 +42,8 @@ const Login = (): React.ReactNode => {
         title: "success",
         description: response.data.message,
       });
+      const session = response.data?.data;
+      setSessionData({ session?.userName,session?.email,session?.userToken,session?.tokenExpiry});
       router.replace(`/verify`);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;

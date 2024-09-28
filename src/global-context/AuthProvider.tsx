@@ -11,7 +11,7 @@ interface sessionType {
   userName: string;
   email: string;
   userToken: number;
-  sessionExpiry: Date;
+  tokenExpiry: Date;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
