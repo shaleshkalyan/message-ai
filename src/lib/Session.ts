@@ -3,13 +3,14 @@ import { cookies } from "next/headers";
 export interface sessionType {
   userName : string,
   email : string,
-  userToken : number
+  userToken : number,
+  tokenExpiry : Date|null
 }
 
 export function getSession(): sessionType {
   const session = cookies().get("userSession")?.value;
   if (!session) {
-    return {userName : '', email : '', userToken : 0};
+    return {userName : '', email : '', userToken : 0, tokenExpiry : null};
   }
   return JSON.parse(session);
 }

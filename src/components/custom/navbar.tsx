@@ -1,22 +1,30 @@
 "use client";
 
-import React, { useContext, useState } from "react";
-import Link from "next/link";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
 import { Loader2 } from "lucide-react";
-import AuthContextProvider, {
-  useAuthContext,
-} from "@/global-context/AuthProvider";
+import { initialAuthState, useAuthContext } from "@/contexts/AuthProvider";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 
 const Navbar = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
-  let { sessionData, setSessionData } = useAuthContext();
+  let { authState, authAction } = useAuthContext();
+  useEffect(() => {
+    if (
+      authState.userName === "" ||
+      authState.email === "" ||
+      authState.userToken == 0 ||
+      authState.tokenExpiry === null ||
+      new Date(authState.tokenExpiry) > new Date()
+    ) {
+      authAction({ type: "LOGOUT", payload: initialAuthState });
+    }
+  }, [authState, router]);
   const logoutUser = async () => {
     setIsLoading(true);
     try {
@@ -26,7 +34,7 @@ const Navbar = () => {
         description: response.data.message,
         variant: "default",
       });
-      setSessionData(null);
+      authAction({ type: "LOGOUT", payload: initialAuthState });
       router.replace(`/login`);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
@@ -46,11 +54,13 @@ const Navbar = () => {
         <a href="#" className="text-xl font-bold mb-4 md:mb-0">
           Undercover Words
         </a>
-        {sessionData?.userName ? (
+        {authState.userName ? (
           <>
-            <span className="mr-4">Welcome, {sessionData?.userName}</span>
+            <span className="mr-4">Welcome, {authState.userName}</span>
             <Avatar>
-              <AvatarFallback>{sessionData?.email.substring(0,1).toUpperCase()}</AvatarFallback>
+              <AvatarFallback>
+                {authState.email.substring(0, 1).toUpperCase()}
+              </AvatarFallback>
             </Avatar>
             <Button
               onClick={logoutUser}

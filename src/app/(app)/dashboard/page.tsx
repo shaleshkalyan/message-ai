@@ -13,9 +13,10 @@ import axios, { AxiosError } from "axios";
 import { Bell, Loader2, CopyIcon } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useAuthContext } from "@/contexts/AuthProvider";
 
 const Dashboard = () => {
-  const userName = "shell";
+  let { authState, authAction } = useAuthContext();
   const [messages, setMessages] = useState<MessageType[] | []>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false);
@@ -118,7 +119,7 @@ const Dashboard = () => {
   };
 
   const baseUrl = `${window.location.protocol}//${window.location.host}`;
-  const profileUrl = `${baseUrl}/public/${userName}`;
+  const profileUrl = `${baseUrl}/public/${authState.userName}`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
