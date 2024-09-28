@@ -13,7 +13,7 @@ export async function POST(request: Request) {
         if (userExists) {
             correctPassword = await bcrypt.compare(password, userExists.password);
         }
-        if (correctPassword == true) {
+        if (correctPassword === true ) {
             const userToken = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
             const tokenExpiry = new Date();
             tokenExpiry.setHours(tokenExpiry.getHours() + 1);
