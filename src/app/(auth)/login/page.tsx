@@ -38,13 +38,19 @@ const Login = (): React.ReactNode => {
     setIsLoading(true);
     try {
       const response = await axios.post<ApiResponse>(`/api/login`, formData);
-      toast({
-        title: "success",
-        description: response.data.message,
-      });
       if(response.data.type === 'success'){
+        toast({
+          title: response.data.type,
+          description: response.data.message,
+        });
         authAction({ type: "LOGIN", payload: authState });
         router.replace(`/verify`);
+      }else{
+        toast({
+          title: response.data.type,
+          description: response.data.message,
+          variant:"destructive"
+        });
       }
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;

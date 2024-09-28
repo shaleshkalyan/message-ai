@@ -26,13 +26,18 @@ const Verify = (): React.ReactNode => {
       const response = await axios.post<ApiResponse>(`/api/verify-user`, {
         otpValue: otp,
       });
-      toast({
-        title: "success",
-        description: response.data.message,
-      });
       if (response.data.type === "success") {
+        toast({
+          title: response.data.type,
+          description: response.data.message,
+        });
         router.replace(`/dashboard`);
-      } else {
+      }else{
+        toast({
+          title: response.data.type,
+          description: response.data.message,
+          variant:"destructive"
+        });
         router.replace(`/login`);
       }
     } catch (error) {

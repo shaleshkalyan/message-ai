@@ -69,13 +69,18 @@ const SignUpForm = (): React.ReactNode => {
     setIsLoading(true);
     try {
       const response = await axios.post<ApiResponse>(`/api/sign-up`, formData);
-      toast({
-        title: "success",
-        description: response.data.message,
-        variant: "default",
-      });
       if (response.data.type === "success") {
+        toast({
+          title: "success",
+          description: response.data.message,
+        });
         router.replace(`/login`);
+      } else {
+        toast({
+          title: response.data.type,
+          description: response.data.message,
+          variant: "destructive",
+        });
       }
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
