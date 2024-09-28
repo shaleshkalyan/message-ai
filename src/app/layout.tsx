@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
+import { AuthContextProvider } from "@/contexts/AuthProvider";
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,10 +18,12 @@ interface RootLayoutProps {
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" >
+      <AuthContextProvider>
         <body className={inter.className}>
           {children}
           <Toaster />
         </body>
+      </AuthContextProvider>
     </html>
   );
 }

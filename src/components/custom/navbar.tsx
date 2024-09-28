@@ -34,13 +34,15 @@ const Navbar = () => {
         description: response.data.message,
         variant: "default",
       });
-      authAction({ type: "LOGOUT", payload: initialAuthState });
-      router.replace(`/login`);
+      if (response.data.type === "success") {
+        authAction({ type: "LOGOUT", payload: initialAuthState });
+        router.replace(`/login`);
+      }
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       const err = axiosError.response?.data.message;
       toast({
-        title: "SignUp Failed",
+        title: "Logout Failed",
         description: err,
         variant: "destructive",
       });
@@ -74,6 +76,7 @@ const Navbar = () => {
           <Button
             className="w-full md:w-auto bg-slate-100 text-black"
             variant={"outline"}
+            onClick={(event) => router.replace(`/login`)}
           >
             {isLoading ? (
               <>

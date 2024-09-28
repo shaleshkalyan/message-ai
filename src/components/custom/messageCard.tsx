@@ -2,7 +2,6 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -37,7 +36,9 @@ const MessageCard = ({ message, onDelete }: MessageCardProps) => {
       toast({
         title: response.data.message,
       });
-      onDelete(message._id);
+      if (response.data.type === "success") {
+        onDelete(message._id);
+      }
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       const err = axiosError.response?.data.message;

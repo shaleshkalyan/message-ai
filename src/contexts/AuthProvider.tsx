@@ -34,22 +34,21 @@ const authReducer = (
   }
 };
 
-const [latestState, dispatch] = useReducer(authReducer, initialAuthState);
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-const handleAuth = ({
-  type: action,
-  payload: currrentState = initialAuthState,
-}: authActionType) => {
-  dispatch({ type: action, payload: currrentState });
-};
 
 export const AuthContextProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
+  const [latestState, dispatch] = useReducer(authReducer, initialAuthState);
   const { Provider: AuthContextProvider } = AuthContext;
+  const handleAuth = ({
+    type: action,
+    payload: currrentState = initialAuthState,
+  }: authActionType) => {
+    dispatch({ type: action, payload: currrentState });
+  };
   return (
     <AuthContextProvider
       value={{ authState: latestState, authAction: handleAuth }}

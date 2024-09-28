@@ -67,12 +67,13 @@ export default function SendMessage() {
         ...data,
         username,
       });
-
       toast({
         title: response.data.message,
         variant: "default",
       });
-      form.reset({ ...form.getValues(), content: "" });
+      if (response.data.type === "success") {
+        form.reset({ ...form.getValues(), content: "" });
+      }
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({

@@ -74,7 +74,9 @@ const SignUpForm = (): React.ReactNode => {
         description: response.data.message,
         variant: "default",
       });
-      router.replace(`/login`);
+      if (response.data.type === "success") {
+        router.replace(`/login`);
+      }
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       const err = axiosError.response?.data.message;

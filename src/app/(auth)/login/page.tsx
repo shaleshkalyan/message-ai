@@ -42,8 +42,10 @@ const Login = (): React.ReactNode => {
         title: "success",
         description: response.data.message,
       });
-      authAction({ type: "LOGIN", payload: authState });
-      router.replace(`/verify`);
+      if(response.data.type === 'success'){
+        authAction({ type: "LOGIN", payload: authState });
+        router.replace(`/verify`);
+      }
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       const err = axiosError.response?.data.message;
