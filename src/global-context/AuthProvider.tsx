@@ -1,12 +1,11 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { cookies } from "next/headers";
+import { useRouter } from "next/navigation";
 
 interface AuthContextType {
-  session: sessionType | null;
-  checkLoggedIn: Function;
+  sessionData: sessionType | null;
+  setSessionData: React.Dispatch<React.SetStateAction<sessionType | null>>;
 }
 interface sessionType {
   userName: string;
@@ -15,28 +14,22 @@ interface sessionType {
   sessionExpiry: Date;
 }
 
-const AuthContext = createContext<AuthContextType>({
-  session: null,
-  checkLoggedIn: () => {},
-});
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const router = useRouter();
 const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [session, setSession] = useState<sessionType | null>(null);
+  const router = useRouter();
+  const [sessionData, setSessionData] = useState<sessionType | null>(null);
   const checkLoggedIn = () => {
-    useEffect(() => {
-      const sessionData = cookies().get("userSession")?.value;
-      if (sessionData) {
-        let data = JSON.parse(sessionData);
-        setSession(data);
-      } else {
-        router.push("/login");
-      }
-    }, []);
+    if (!sessionData) {
+      router.replace("/login");
+    }
   };
+  useEffect(() => {
+    checkLoggedIn();
+  }, [sessionData, router]);
   const { Provider: AuthContextProvider } = AuthContext;
   return (
-    <AuthContextProvider value={{ session, checkLoggedIn }}>
+    <AuthContextProvider value={{ sessionData, setSessionData }}>
       {children}
     </AuthContextProvider>
   );

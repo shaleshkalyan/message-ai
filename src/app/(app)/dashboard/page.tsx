@@ -118,7 +118,7 @@ const Dashboard = () => {
   };
 
   const baseUrl = `${window.location.protocol}//${window.location.host}`;
-  const profileUrl = `${baseUrl}/profile/${userName}`;
+  const profileUrl = `${baseUrl}/public/${userName}`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
