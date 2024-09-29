@@ -26,7 +26,7 @@ const Login = (): React.ReactNode => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const { toast } = useToast();
   const router = useRouter();
-  const { authState, authAction } = useAuthContext();
+  const { authAction } = useAuthContext();
   const form = useForm<zod.infer<typeof LoginValidation>>({
     resolver: zodResolver(LoginValidation),
     defaultValues: {
@@ -45,7 +45,7 @@ const Login = (): React.ReactNode => {
           description: response.data.message,
         });
         // Check if response.data.data has the expected structure
-        let stateData = response.data?.userData;        
+        let stateData = response.data?.userData;
         // Ensure you handle potential undefined values
         if (!stateData) {
           stateData = initialAuthState;
@@ -112,21 +112,21 @@ const Login = (): React.ReactNode => {
               )}
             />
             <div className="flex justify-center">
-              <Button
-                size="sm"
-                variant={"outline"}
-                className="bg-gray-800 text-white"
-                type="submit"
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Please wait
-                  </>
-                ) : (
-                  "Login"
-                )}
-              </Button>
+              {isLoading ? (
+                <Button className="bg-gray-800 text-white" disabled>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait
+                </Button>
+              ) : (
+                <Button
+                  size="sm"
+                  variant={"outline"}
+                  className="bg-gray-800 text-white"
+                  type="submit"
+                >
+                  Login
+                </Button>
+              )}
             </div>
           </form>
         </Form>

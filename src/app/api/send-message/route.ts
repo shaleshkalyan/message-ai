@@ -4,9 +4,9 @@ import UserModel from "@/models/UserModel";
 
 export async function POST(request : Request){
     await dbConnect();
-    const { userName, content} = await request.json();
+    const { username, content} = await request.json();
     try {
-        const userData = await UserModel.findOne({ username : userName})
+        const userData = await UserModel.findOne({username})
         if (!userData) {
             return Response.json({ type: 'error', message: 'No User Found.' });
         }

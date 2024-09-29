@@ -131,7 +131,7 @@ const SignUpForm = (): React.ReactNode => {
                     {isLoading ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Loading
+                        Loading...
                       </>
                     ) : (
                       <TypographyP
@@ -173,21 +173,21 @@ const SignUpForm = (): React.ReactNode => {
                 )}
               />
               <div className="flex justify-center">
-                <Button
-                  size="sm"
-                  variant={"outline"}
-                  type="submit"
-                  className="bg-gray-800 text-white"
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Please wait
-                    </>
-                  ) : (
-                    "Sign Up"
-                  )}
-                </Button>
+                {isLoading ? (
+                  <Button className="bg-gray-800 text-white" disabled>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Please wait
+                  </Button>
+                ) : (
+                  <Button
+                    size="sm"
+                    variant={"outline"}
+                    className="bg-gray-800 text-white"
+                    type="submit"
+                  >
+                    Sign Up
+                  </Button>
+                )}
               </div>
             </form>
           </Form>

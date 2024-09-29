@@ -81,22 +81,22 @@ const Verify = (): React.ReactNode => {
               </InputOTPGroup>
             </InputOTP>
             <div className="flex justify-center text-center text-sm">
-              <Button
-                size={"sm"}
-                variant={"outline"}
-                type="button"
-                onClick={submitOtp}
-                className="bg-gray-800 text-white"
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Please wait
-                  </>
-                ) : (
-                  "Submit OTP"
-                )}
-              </Button>
+              {isLoading ? (
+                <Button className="bg-gray-800 text-white" disabled>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait...
+                </Button>
+              ) : (
+                <Button
+                  size={"sm"}
+                  variant={"outline"}
+                  type="button"
+                  onClick={submitOtp}
+                  className="bg-gray-800 text-white"
+                >
+                  Submit OTP
+                </Button>
+              )}
             </div>
           </div>
         </div>

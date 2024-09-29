@@ -37,7 +37,7 @@ const initialMessageString =
 export default function SendMessage() {
   const params = useParams<{ username: string }>();
   const username = params.username;
-
+  
   const {
     complete,
     completion,
@@ -70,14 +70,14 @@ export default function SendMessage() {
       if (response.data.type === "success") {
         toast({
           title: response.data.type,
-          description: response.data.message
+          description: response.data.message,
         });
         form.reset({ ...form.getValues(), content: "" });
-      }else{
+      } else {
         toast({
           title: response.data.type,
           description: response.data.message,
-          variant:"destructive"
+          variant: "destructive",
         });
       }
     } catch (error) {
@@ -152,15 +152,22 @@ export default function SendMessage() {
 
       <div className="space-y-4 my-8">
         <div className="space-y-2">
-          <Button
-            size="sm"
-            variant={"outline"}
-            onClick={fetchSuggestedMessages}
-            className="my-4 bg-gray-800 text-white"
-            disabled={isSuggestLoading}
-          >
-            Get messages from AI
-          </Button>
+          {isLoading || isSuggestLoading ? (
+            <Button className="bg-gray-800 text-white" disabled>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Please wait...
+            </Button>
+          ) : (
+            <Button
+              size="sm"
+              variant={"outline"}
+              onClick={fetchSuggestedMessages}
+              className="my-4 bg-gray-800 text-white"
+              disabled={isSuggestLoading}
+            >
+              Get messages from AI
+            </Button>
+          )}
           <p>Click on any message below to select it.</p>
         </div>
         <Card>
@@ -179,9 +186,9 @@ export default function SendMessage() {
                   className="m-2"
                   variant="destructive"
                   size="sm"
-                  onClick={(event) => copyToClipboard(error.message)}
+                  onClick={() => copyToClipboard(error.message)}
                 >
-                  <CopyIcon />
+                  Copy
                 </Button>
               </div>
             ) : (
@@ -197,7 +204,7 @@ export default function SendMessage() {
                     variant={"outline"}
                     className="m-2 bg-gray-800 text-white"
                     size="sm"
-                    onClick={(event) => handleMessageClick(message)}
+                    onClick={() => handleMessageClick(message)}
                   >
                     <Send />
                   </Button>
@@ -205,7 +212,7 @@ export default function SendMessage() {
                     className="m-2 bg-gray-800 text-white"
                     variant="outline"
                     size="sm"
-                    onClick={(event) => copyToClipboard(message)}
+                    onClick={() => copyToClipboard(message)}
                   >
                     <CopyIcon />
                   </Button>

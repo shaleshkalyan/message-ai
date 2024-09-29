@@ -128,20 +128,6 @@ const Dashboard = () => {
       description: "Profile URL has been copied to clipboard.",
     });
   };
-  const userMessages = [
-    {
-      content: "first message",
-      createdAt: "2024-09-23",
-    },
-    {
-      content: "second message",
-      createdAt: "2024-09-24",
-    },
-    {
-      content: "third message",
-      createdAt: "2024-09-25",
-    },
-  ];
   return (
     <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
       <div className="mb-4 container mx-auto flex flex-col md:flex-row justify-between items-center">
@@ -193,8 +179,8 @@ const Dashboard = () => {
         )}
       </Button>
       <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
-        {userMessages.length > 0 ? (
-          userMessages.map((messageData, index) => (
+        {messages.length > 0 ? (
+          messages.map((messageData, index) => (
             <MessageCard
               key={index}
               message={messageData}
