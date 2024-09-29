@@ -38,7 +38,7 @@ export default function Home() {
             Step into the Realm of Anonymous Messaging!
           </h1>
           <p className="mt-3 md:mt-4 text-base md:text-lg">
-            Undercover Words - Where your identity stays under wraps—ready to
+            Mystery Inbox - Where your identity stays under wraps—ready to
             share your thoughts without a trace.
           </p>
         </section>
@@ -71,7 +71,7 @@ export default function Home() {
         </Carousel>
       </main>
       <footer className="text-center p-4 md:p-6 bg-gray-900 text-white">
-        © 2023 Undercover Words. All rights reserved.
+        © 2023 Mystery Inbox. All rights reserved.
       </footer>
     </>
   );

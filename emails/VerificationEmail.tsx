@@ -17,6 +17,6 @@ export const VerificationEmail: React.FC<Readonly<EmailTemplateProps>> = ({
     <Text>{otp}</Text>
     <Text>If request is not raised by you, Please ignore.</Text>
     <Text>Thanks,</Text>
-    <Text>Undercover Words</Text>
+    <Text>Mystery Inbox</Text>
   </div>
 );

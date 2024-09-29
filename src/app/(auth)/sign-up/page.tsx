@@ -101,10 +101,10 @@ const SignUpForm = (): React.ReactNode => {
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md m-2">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
-            Undercover Words!
+            Mystery Inbox!
           </h1>
           <h2 className="pb-2 border-b text-3xl font-semibold tracking-tight first:mt-0 text-center">
-            Join us in Undercover Words! Are you excited to explore?
+            Join us in Mystery Inbox! Are you excited to explore?
           </h2>
         </div>
         <div>

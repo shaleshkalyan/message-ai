@@ -7,7 +7,7 @@ import { AuthContextProvider } from "@/providers/AuthProvider";
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Undercover Words',
+  title: 'Mystery Inbox',
   description: 'The Realm of Anonymous Messaging',
 };
 
