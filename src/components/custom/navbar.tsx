@@ -37,7 +37,7 @@ const Navbar = () => {
   const logoutUser = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.post<ApiResponse>(`/api/logout`, {});
+      const response = await axios.post<ApiResponse>(`/api/protected/logout`, {});
       toast({
         title: "success",
         description: response.data.message,

@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { CircleAlert, CircleCheckBig, Loader2 } from "lucide-react";
 import { displayMessage } from "@/types/Messages";
 import { TypographyP } from "@/components/ui/typography";
 
@@ -29,6 +29,7 @@ const SignUpForm = (): React.ReactNode => {
     type: "error",
     message: "",
   });
+  const [icon, setIcon] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const debounced = useDebounceCallback(setUserName, 500);
   const { toast } = useToast();
@@ -43,18 +44,19 @@ const SignUpForm = (): React.ReactNode => {
   });
   useEffect(() => {
     const verifyUniqueUserName = async () => {
-      setMessage({ type: "error", message: "" });
-      if (!userName) return;
+      if (userName.length < 5) return;
       try {
         const response = await axios.get<ApiResponse>(
           `/api/check-unique-username?user=${userName}`
         );
+        setIcon(response.data.type);
         setMessage({
           type: response.data.type,
           message: response.data.message,
         });
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;
+        setIcon("error");
         setMessage({ type: "error", message: "Error checking username" });
       } finally {
         setIsLoading(false);
@@ -123,26 +125,37 @@ const SignUpForm = (): React.ReactNode => {
                         onChange={(e) => {
                           e.preventDefault();
                           const value = e.target.value;
+                          if (value.length < 5) setIcon("");
                           field.onChange(value);
                           debounced(value);
                         }}
                       />
                     </FormControl>
                     {isLoading ? (
-                      <>
+                      <div className="flex flex-row m-4 items-center">
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         Loading...
-                      </>
+                      </div>
                     ) : (
-                      <TypographyP
-                        className={
-                          message.type === "success"
-                            ? "text-green-500"
-                            : "text-red-500"
-                        }
-                      >
-                        {message.message}
-                      </TypographyP>
+                      <div className="flex flex-row m-4 items-center">
+                        {icon === "error" ? (
+                          <>
+                            <CircleAlert className="text-red-500" />
+                            <TypographyP className="text-red-500 m-4">
+                              {message.message}
+                            </TypographyP>
+                          </>
+                        ) : icon === "success" ? (
+                          <>
+                            <CircleCheckBig className="text-green-500" />
+                            <TypographyP className="text-green-500 m-4">
+                              {message.message}
+                            </TypographyP>
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                      </div>
                     )}
                     <FormMessage />
                   </FormItem>
