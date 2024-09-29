@@ -1,4 +1,4 @@
-import { MessageSchema, MessageType } from './../../../models/MessageModel';
+import { MessageType } from '@/models/MessageModel';
 import dbConnect from "@/db/Connect";
 import UserModel from "@/models/UserModel";
 import { getSession } from "@/lib/Session";

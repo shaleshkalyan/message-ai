@@ -1,20 +1,14 @@
+import { authStateType } from "@/types/AuthContext";
 import { cookies } from "next/headers";
 
-export interface sessionType {
-  userName : string,
-  email : string,
-  userToken : number,
-  tokenExpiry : Date|null
-}
-
-export function getSession(): sessionType {
+export function getSession(): authStateType {
   const session = cookies().get("userSession")?.value;
   if (!session) {
     return {userName : '', email : '', userToken : 0, tokenExpiry : null};
   }
   return JSON.parse(session);
 }
-export function setSession(userData: sessionType): void {
+export function setSession(userData: authStateType): void {
   // Create the session
   const session = JSON.stringify(userData)
   // Save the session in a cookie

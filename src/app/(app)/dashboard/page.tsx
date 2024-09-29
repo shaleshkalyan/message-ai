@@ -35,7 +35,7 @@ const Dashboard = () => {
   const fetchAcceptMessage = useCallback(async () => {
     setIsSwitchLoading(true);
     try {
-      const response = await axios.get<ApiResponse>(`api/accept-messages`);
+      const response = await axios.get<ApiResponse>(`api/protected/accept-messages`);
       setValue("acceptMessages", response.data.isAcceptingMessage);
       toast({
         title: "success",
@@ -60,7 +60,7 @@ const Dashboard = () => {
       setIsLoading(true);
       setIsSwitchLoading(true);
       try {
-        const response = await axios.get<ApiResponse>(`api/get-messages`);
+        const response = await axios.get<ApiResponse>(`api/protected/get-messages`);
         let userMessages = response.data.userAllMessages
           ? response.data.userAllMessages
           : []; 
@@ -96,7 +96,7 @@ const Dashboard = () => {
   const handleSwitchChange = async () => {
     setIsSwitchLoading(true);
     try {
-      const response = await axios.post<ApiResponse>(`api/accept-messages`, {
+      const response = await axios.post<ApiResponse>(`api/protected/accept-messages`, {
         acceptingmessages: !isAcceptMessages,
       });
       setValue("acceptMessages", !isAcceptMessages);

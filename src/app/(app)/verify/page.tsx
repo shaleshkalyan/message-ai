@@ -23,7 +23,7 @@ const Verify = (): React.ReactNode => {
     event.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post<ApiResponse>(`/api/verify-user`, {
+      const response = await axios.post<ApiResponse>(`api/protected/verify-user`, {
         otpValue: otp,
       });
       if (response.data.type === "success") {

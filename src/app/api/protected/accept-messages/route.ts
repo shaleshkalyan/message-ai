@@ -6,13 +6,13 @@ export async function POST(request: Request) {
     await dbConnect();
     try {
         const { acceptingmessages } = await request.json();
-        const { userName, email, userToken } = getSession();
+        const { userName, email, userToken, tokenExpiry } = getSession();
         const updated = await UserModel.findOneAndUpdate({ username: userName }, { isAcceptingMessage: acceptingmessages }, { new: true });
         if (!updated) {
             return Response.json({ type: 'error', message: 'Status updation Failed' });
         }
         unSetSession();
-        setSession({ userName, email, userToken: updated.userToken });
+        setSession({ userName, email, userToken, tokenExpiry });
         return Response.json({ type: 'success', message: 'Status updated successfully !!' });
     } catch (error) {
         console.log('Error occured on changing status :' + error);
