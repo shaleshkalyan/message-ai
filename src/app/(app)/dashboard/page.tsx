@@ -63,7 +63,7 @@ const Dashboard = () => {
         const response = await axios.get<ApiResponse>(`api/get-messages`);
         let userMessages = response.data.userAllMessages
           ? response.data.userAllMessages
-          : [];
+          : []; 
         setMessages(userMessages);
         if (refresh) {
           toast({
@@ -182,7 +182,7 @@ const Dashboard = () => {
         {messages.length > 0 ? (
           messages.map((messageData, index) => (
             <MessageCard
-              key={index}
+              key={messageData._id}
               message={messageData}
               onDelete={handleDeleteMessage}
             />
