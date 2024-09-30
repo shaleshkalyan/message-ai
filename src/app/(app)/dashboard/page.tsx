@@ -35,7 +35,9 @@ const Dashboard = () => {
   const fetchAcceptMessage = useCallback(async () => {
     setIsSwitchLoading(true);
     try {
-      const response = await axios.get<ApiResponse>(`api/protected/accept-messages`);
+      const response = await axios.get<ApiResponse>(
+        `api/protected/accept-messages`
+      );
       setValue("acceptMessages", response.data.isAcceptingMessage);
       toast({
         title: "success",
@@ -60,10 +62,12 @@ const Dashboard = () => {
       setIsLoading(true);
       setIsSwitchLoading(true);
       try {
-        const response = await axios.get<ApiResponse>(`api/protected/get-messages`);
+        const response = await axios.get<ApiResponse>(
+          `api/protected/get-messages`
+        );
         let userMessages = response.data.userAllMessages
           ? response.data.userAllMessages
-          : []; 
+          : [];
         setMessages(userMessages);
         if (refresh) {
           toast({
@@ -96,9 +100,12 @@ const Dashboard = () => {
   const handleSwitchChange = async () => {
     setIsSwitchLoading(true);
     try {
-      const response = await axios.post<ApiResponse>(`api/protected/accept-messages`, {
-        acceptingmessages: !isAcceptMessages,
-      });
+      const response = await axios.post<ApiResponse>(
+        `api/protected/accept-messages`,
+        {
+          acceptingmessages: !isAcceptMessages,
+        }
+      );
       setValue("acceptMessages", !isAcceptMessages);
       toast({
         title: "success",
@@ -131,8 +138,11 @@ const Dashboard = () => {
   return (
     <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
       <div className="mb-4 container mx-auto flex flex-col md:flex-row justify-between items-center">
-        <div className="flex flex-row items-center">
-          <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>{" "}
+        <div className="flex flex-col items-center">
+            <h2 className="text-lg font-semibold mb-2">
+              Want to get anonymous messages? Just share your link!
+            </h2>{" "}
+          <div className="flex flex-row items-center">
           <input
             type="text"
             value={profileUrl}
@@ -144,9 +154,10 @@ const Dashboard = () => {
             variant={"outline"}
             className="bg-gray-800 text-white"
             onClick={copyToClipboard}
-          >
+            >
             <CopyIcon />
           </Button>
+            </div>
         </div>
         <div className="mb-4 p-4 flex flex-col justify-center items-center">
           <span className="ml-2">

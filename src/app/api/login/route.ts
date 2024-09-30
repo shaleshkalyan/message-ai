@@ -9,7 +9,8 @@ export async function POST(request: Request) {
     try {
         let correctPassword = false;
         const { username, password } = await request.json();
-        const userExists = await UserModel.findOne({ username });
+        const dbUserName = username ? username.toLowerCase() : username;
+        const userExists = await UserModel.findOne({ username : dbUserName});
         if (userExists) {
             correctPassword = await bcrypt.compare(password, userExists.password);
         }
@@ -29,7 +30,7 @@ export async function POST(request: Request) {
             }
             return Response.json({ type: 'error', message: 'Something went wrong' });
         }
-        return Response.json({ type: 'error', message: 'Invalid email OR Incorrect Password ' })
+        return Response.json({ type: 'error', message: 'Invalid username OR Incorrect Password ' })
     } catch (error) {
         console.log('Error occured on login :' + error);
         return Response.json({ type: 'error', message: 'Login Failed' })
