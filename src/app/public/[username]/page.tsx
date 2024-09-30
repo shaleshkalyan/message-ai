@@ -8,7 +8,6 @@ import { Loader2, CopyIcon, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
-import { useCompletion } from "ai/react";
 import {
   Form,
   FormControl,
@@ -24,30 +23,20 @@ import { ApiResponse } from "@/types/ApiResponse";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { messageValidation } from "@/app/schema/message";
-
-const specialChar = "||";
-
-const parseStringMessages = (messageString: string): string[] => {
-  return messageString.split(specialChar);
-};
-
-const initialMessageString =
-  "What's your favorite movie?||Do you have any pets?||What's your dream job?";
+export interface aiResponseType {
+  type: "success" | "error" | "warning";
+  message: string;
+}
 
 export default function SendMessage() {
   const params = useParams<{ username: string }>();
   const username = params.username;
-  
-  const {
-    complete,
-    completion,
-    isLoading: isSuggestLoading,
-    error,
-  } = useCompletion({
-    api: "/api/suggest-messages",
-    initialCompletion: initialMessageString,
-  });
 
+  const initialMessageResponse: aiResponseType = {
+    type: "success",
+    message:
+      "What's your favorite movie?||Do you have any pets?||What's your dream job?",
+  };
   const form = useForm<z.infer<typeof messageValidation>>({
     resolver: zodResolver(messageValidation),
   });
@@ -58,6 +47,13 @@ export default function SendMessage() {
     form.setValue("content", message);
   };
 
+  const getAllMessages = (messageString: string): string[] => {
+    return messageString.split("||");
+  };
+
+  const [completion, setCompletion] = useState<aiResponseType>(
+    initialMessageResponse
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: z.infer<typeof messageValidation>) => {
@@ -94,10 +90,38 @@ export default function SendMessage() {
   };
 
   const fetchSuggestedMessages = async () => {
+    setIsLoading(true);
     try {
-      complete("");
+      const response = await axios.post<ApiResponse>(
+        "/api/suggest-messages",
+        {}
+      );
+      setCompletion({
+        type: response.data.type,
+        message: response.data.message,
+      });
+      if (response.data.type === "success") {
+        toast({
+          title: response.data.type,
+          description: "Messges generated from AI.",
+        });
+      } else {
+        toast({
+          title: response.data.type,
+          description: response.data.message,
+          variant: "destructive",
+        });
+      }
     } catch (error) {
-      console.error("Error fetching messages:", error);
+      const axiosError = error as AxiosError<ApiResponse>;
+      toast({
+        title: "Error",
+        description:
+          axiosError.response?.data.message ?? "Failed to get messages",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
   const copyToClipboard = (data: string) => {
@@ -110,7 +134,7 @@ export default function SendMessage() {
   return (
     <div className="container mx-auto my-8 p-6 bg-white rounded max-w-4xl">
       <h1 className="text-4xl font-bold mb-6 text-center">
-      Slide into the  {username}'s DM
+        Slide into the {username}'s DM
       </h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -152,7 +176,7 @@ export default function SendMessage() {
 
       <div className="space-y-4 my-8">
         <div className="space-y-2">
-          {isLoading || isSuggestLoading ? (
+          {isLoading ? (
             <Button className="bg-gray-800 text-white" disabled>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Please wait...
@@ -163,7 +187,7 @@ export default function SendMessage() {
               variant={"outline"}
               onClick={fetchSuggestedMessages}
               className="my-4 bg-gray-800 text-white"
-              disabled={isSuggestLoading}
+              disabled={isLoading}
             >
               Get messages from AI
             </Button>
@@ -175,24 +199,24 @@ export default function SendMessage() {
             <h3 className="text-xl font-semibold">Messages</h3>
           </CardHeader>
           <CardContent className="flex flex-col space-y-4">
-            {error ? (
+            {completion.type === "error" ? (
               <div className="flex flex-row justify-between">
                 <Textarea
                   disabled
                   className="text-red-800"
-                  value={error.message}
+                  value={completion.message}
                 />
                 <Button
                   className="m-2"
                   variant="destructive"
                   size="sm"
-                  onClick={() => copyToClipboard(error.message)}
+                  onClick={() => copyToClipboard(completion.message)}
                 >
                   Copy
                 </Button>
               </div>
             ) : (
-              parseStringMessages(completion).map((message, index) => (
+              getAllMessages(completion.message).map((message, index) => (
                 <div className="flex flex-row">
                   <input
                     type="text"
