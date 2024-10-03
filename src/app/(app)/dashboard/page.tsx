@@ -14,6 +14,7 @@ import axios, { AxiosError } from "axios";
 import { Bell, Loader2, CopyIcon } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { string } from "zod";
 
 const Dashboard = () => {
   let { authState, authAction } = useAuthContext();
@@ -193,7 +194,7 @@ const Dashboard = () => {
         {messages.length > 0 ? (
           messages.map((messageData, index) => (
             <MessageCard
-              key={messageData._id}
+              key={(typeof(messageData._id) === "string") ? messageData._id : undefined}
               message={messageData}
               onDelete={handleDeleteMessage}
             />
