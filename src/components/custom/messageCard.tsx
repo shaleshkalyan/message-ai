@@ -37,7 +37,7 @@ const MessageCard = ({ message, onDelete }: MessageCardProps) => {
         title: response.data.message,
       });
       if (response.data.type === "success") {
-        onDelete(message._id);
+        onDelete(typeof(message._id) === "string" ? message._id : '');
       }
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
@@ -88,7 +88,7 @@ const MessageCard = ({ message, onDelete }: MessageCardProps) => {
           </AlertDialog>
         </div>
         <div className="text-sm text-white">
-          {dateFormat(message.createdAt)}
+          { typeof(message.createdAt) === 'string' ? dateFormat(message.createdAt) : ''}
         </div>
       </CardHeader>
       <CardContent></CardContent>
