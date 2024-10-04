@@ -1,16 +1,21 @@
 import dbConnect from "@/db/Connect";
 import UserModel from "@/models/UserModel";
+import { initialAuthState } from "@/providers/AuthProvider";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
     await dbConnect();
     try {
-        const userName = request.headers.get('userName');
-        if (userName === '') {
+        const user = request.headers.get('authorization');
+        let userDetails = initialAuthState;
+        if (user !== null) {
+            userDetails = JSON.parse(user);
+        }
+        if (userDetails?.userName === '') {
             return Response.json({ type: 'error', message: 'Authentication Failed' });
         }
         const userData = await UserModel.aggregate([
-            { $match: { username: userName } },
+            { $match: { username: userDetails?.userName } },
             { $unwind: '$messages' },
             { $sort: { 'messages.createdAt': -1 } },
             { $group: { _id: '$_id', messages: { $push: '$messages' } } }

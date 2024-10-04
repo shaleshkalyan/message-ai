@@ -7,18 +7,16 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useAuthContext } from "@/hooks/UseAuth";
-import axiosInterceptor from "@/interceptors";
 import { MessageType } from "@/models/MessageModel";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { Bell, Loader2, CopyIcon } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { string } from "zod";
 
 const Dashboard = () => {
-  let { authState, authAction } = useAuthContext();
+  let { authState } = useAuthContext();
   const [messages, setMessages] = useState<MessageType[] | []>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false);
@@ -37,8 +35,13 @@ const Dashboard = () => {
   const fetchAcceptMessage = useCallback(async () => {
     setIsSwitchLoading(true);
     try {
-      const response = await axiosInterceptor.get<ApiResponse>(
-        `api/protected/accept-messages`
+      const response = await axios.get<ApiResponse>(
+        `api/protected/accept-messages`,
+        {
+          headers: {
+            Authorization: JSON.stringify(authState),
+          },
+        }
       );
       setValue("acceptMessages", response.data.isAcceptingMessage);
       toast({
@@ -64,8 +67,13 @@ const Dashboard = () => {
       setIsLoading(true);
       setIsSwitchLoading(true);
       try {
-        const response = await axiosInterceptor.get<ApiResponse>(
-          `api/protected/get-messages`
+        const response = await axios.get<ApiResponse>(
+          `api/protected/get-messages`,
+          {
+            headers: {
+              Authorization: JSON.stringify(authState),
+            },
+          }
         );
         let userMessages = response.data.userAllMessages
           ? response.data.userAllMessages
@@ -102,11 +110,16 @@ const Dashboard = () => {
   const handleSwitchChange = async () => {
     setIsSwitchLoading(true);
     try {
-      const response = await axiosInterceptor.post<ApiResponse>(
+      const response = await axios.post<ApiResponse>(
         `api/protected/accept-messages`,
         {
-          userName : authState.userName,
+          userName: authState.userName,
           acceptingmessages: !isAcceptMessages,
+        },
+        {
+          headers: {
+            Authorization: JSON.stringify(authState),
+          },
         }
       );
       setValue("acceptMessages", !isAcceptMessages);
@@ -142,25 +155,25 @@ const Dashboard = () => {
     <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
       <div className="mb-4 container mx-auto flex flex-col md:flex-row justify-between items-center">
         <div className="flex flex-col items-center">
-            <h2 className="text-lg font-semibold mb-2">
-              Want to get anonymous messages? Just share your link!
-            </h2>{" "}
+          <h2 className="text-lg font-semibold mb-2">
+            Want to get anonymous messages? Just share your link!
+          </h2>{" "}
           <div className="flex flex-row items-center">
-          <input
-            type="text"
-            value={profileUrl}
-            disabled
-            className="input input-bordered w-full p-2 mr-2"
-          />
-          <Button
-            size="sm"
-            variant={"outline"}
-            className="bg-gray-800 text-white"
-            onClick={copyToClipboard}
+            <input
+              type="text"
+              value={profileUrl}
+              disabled
+              className="input input-bordered w-full p-2 mr-2"
+            />
+            <Button
+              size="sm"
+              variant={"outline"}
+              className="bg-gray-800 text-white"
+              onClick={copyToClipboard}
             >
-            <CopyIcon />
-          </Button>
-            </div>
+              <CopyIcon />
+            </Button>
+          </div>
         </div>
         <div className="mb-4 p-4 flex flex-col justify-center items-center">
           <span className="ml-2">
@@ -196,7 +209,11 @@ const Dashboard = () => {
         {messages.length > 0 ? (
           messages.map((messageData, index) => (
             <MessageCard
-              key={(typeof(messageData._id) === "string") ? messageData._id : undefined}
+              key={
+                typeof messageData._id === "string"
+                  ? messageData._id
+                  : undefined
+              }
               message={messageData}
               onDelete={handleDeleteMessage}
             />

@@ -9,12 +9,13 @@ import {
 } from "@/components/ui/input-otp";
 import { MouseEventHandler, useState } from "react";
 import { ApiResponse } from "@/types/ApiResponse";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import axiosInterceptor from "@/interceptors";
+import { useAuthContext } from "@/hooks/UseAuth";
 
 const Verify = (): React.ReactNode => {
+  const { authState } = useAuthContext();
   const [otp, setOtp] = useState<string>("");
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const { toast } = useToast();
@@ -24,9 +25,17 @@ const Verify = (): React.ReactNode => {
     event.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axiosInterceptor.post<ApiResponse>(`api/protected/verify-user`, {
-        otpValue: otp,
-      });
+      const response = await axios.post<ApiResponse>(
+        `api/protected/verify-user`,
+        {
+          otpValue: otp,
+        },
+        {
+          headers: {
+            Authorization: JSON.stringify(authState),
+          },
+        }
+      );
       if (response.data.type === "success") {
         toast({
           title: response.data.type,

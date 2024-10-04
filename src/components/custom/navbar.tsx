@@ -32,14 +32,22 @@ const Navbar = () => {
   const logoutUser = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.post<ApiResponse>(`/api/protected/logout`, {});
+      const response = await axios.post<ApiResponse>(
+        `/api/protected/logout`,
+        {},
+        {
+          headers: {
+            Authorization: JSON.stringify(authState),
+          },
+        }
+      );
       toast({
         title: "success",
         description: response.data.message,
         variant: "default",
       });
       if (response.data.type === "success") {
-        await authAction({ type: "LOGOUT", payload: initialAuthState });
+        authAction({ type: "LOGOUT", payload: initialAuthState });
         router.push(`/login`);
       }
     } catch (error) {

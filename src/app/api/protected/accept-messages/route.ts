@@ -1,5 +1,6 @@
 import dbConnect from "@/db/Connect";
 import UserModel from "@/models/UserModel";
+import { initialAuthState } from "@/providers/AuthProvider";
 
 export async function POST(request: Request) {
     await dbConnect();
@@ -20,8 +21,12 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
     await dbConnect();
     try {
-        const userName = await request.headers.get('userName');
-        const foundUser = await UserModel.findOne({ username: userName });
+        const user = request.headers.get('authorization');
+        let userData = initialAuthState;
+        if(user !== null){
+            userData = JSON.parse(user);
+        }
+        const foundUser = await UserModel.findOne({ username: userData?.userName });
         if (!foundUser) {
             return Response.json({ type: 'error', message: 'User Not Found' });
         }
