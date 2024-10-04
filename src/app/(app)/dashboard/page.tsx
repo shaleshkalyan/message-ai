@@ -7,10 +7,11 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useAuthContext } from "@/hooks/UseAuth";
+import axiosInterceptor from "@/interceptors";
 import { MessageType } from "@/models/MessageModel";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { Bell, Loader2, CopyIcon } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -36,7 +37,7 @@ const Dashboard = () => {
   const fetchAcceptMessage = useCallback(async () => {
     setIsSwitchLoading(true);
     try {
-      const response = await axios.get<ApiResponse>(
+      const response = await axiosInterceptor.get<ApiResponse>(
         `api/protected/accept-messages`
       );
       setValue("acceptMessages", response.data.isAcceptingMessage);
@@ -63,7 +64,7 @@ const Dashboard = () => {
       setIsLoading(true);
       setIsSwitchLoading(true);
       try {
-        const response = await axios.get<ApiResponse>(
+        const response = await axiosInterceptor.get<ApiResponse>(
           `api/protected/get-messages`
         );
         let userMessages = response.data.userAllMessages
@@ -101,9 +102,10 @@ const Dashboard = () => {
   const handleSwitchChange = async () => {
     setIsSwitchLoading(true);
     try {
-      const response = await axios.post<ApiResponse>(
+      const response = await axiosInterceptor.post<ApiResponse>(
         `api/protected/accept-messages`,
         {
+          userName : authState.userName,
           acceptingmessages: !isAcceptMessages,
         }
       );
@@ -126,7 +128,7 @@ const Dashboard = () => {
     }
   };
 
-  const baseUrl = `${window.location.protocol}//${window.location.host}`;
+  const baseUrl = process.env.VERCEL_URL;
   const profileUrl = `${baseUrl}/public/${authState.userName}`;
 
   const copyToClipboard = () => {

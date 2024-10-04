@@ -1,12 +1,12 @@
 import dbConnect from "@/db/Connect";
 import UserModel from "@/models/UserModel";
-import { getSession } from "@/lib/Session";
+import { NextRequest } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
     await dbConnect();
     try {
-        const { userName, email, userToken } = getSession();
-        if (userName === '' || email === '' || userToken === 0) {
+        const userName = request.headers.get('userName');
+        if (userName === '') {
             return Response.json({ type: 'error', message: 'Authentication Failed' });
         }
         const userData = await UserModel.aggregate([

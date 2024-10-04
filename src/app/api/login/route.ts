@@ -1,5 +1,4 @@
 import dbConnect from "@/db/Connect";
-import { setSession } from "@/lib/Session";
 import UserModel from "@/models/UserModel";
 import bcrypt from "bcryptjs";
 import { verificationEmail } from "@/helpers/VerificationEmail";
@@ -25,7 +24,6 @@ export async function POST(request: Request) {
             verificationEmail({userName : username, email : userExists.email, otp : userToken});
             const updated = await UserModel.updateOne({ username }, update);
             if (updated) {
-                setSession({ userName: username, email : userExists.email, userToken, tokenExpiry });
                 return Response.json({ type: 'success', message: 'User Logged In Successfully !!', userData: { userName : username, email : userExists.email, userToken : userToken, tokenExpiry : tokenExpiry} })
             }
             return Response.json({ type: 'error', message: 'Something went wrong' });

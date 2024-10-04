@@ -9,9 +9,10 @@ import {
 } from "@/components/ui/input-otp";
 import { MouseEventHandler, useState } from "react";
 import { ApiResponse } from "@/types/ApiResponse";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import axiosInterceptor from "@/interceptors";
 
 const Verify = (): React.ReactNode => {
   const [otp, setOtp] = useState<string>("");
@@ -23,7 +24,7 @@ const Verify = (): React.ReactNode => {
     event.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post<ApiResponse>(`api/protected/verify-user`, {
+      const response = await axiosInterceptor.post<ApiResponse>(`api/protected/verify-user`, {
         otpValue: otp,
       });
       if (response.data.type === "success") {

@@ -50,7 +50,7 @@ const Login = (): React.ReactNode => {
         if (!stateData) {
           stateData = initialAuthState;
         }
-        await authAction({ type: "LOGIN", payload: stateData });
+        authAction({ type: "LOGIN", payload: stateData });
         router.push(`/verify`);
       } else {
         toast({

@@ -11,11 +11,6 @@ import { initialAuthState } from "@/providers/AuthProvider";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { useAuthContext } from "@/hooks/UseAuth";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
