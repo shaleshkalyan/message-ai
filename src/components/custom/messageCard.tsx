@@ -56,16 +56,15 @@ const MessageCard = ({ message, onDelete }: MessageCardProps) => {
     return result;
   };
   return (
-    <Card className="card-bordered bg-gray-800">
+    <Card className="card-bordered">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle className="text-white">{message.content}</CardTitle>
+          <CardTitle>{message.content}</CardTitle>
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button
                 size={"sm"}
                 variant="outline"
-                className="bg-gray-800 text-white"
               >
                 <X className="w-4 h-4" />
               </Button>
@@ -87,7 +86,7 @@ const MessageCard = ({ message, onDelete }: MessageCardProps) => {
             </AlertDialogContent>
           </AlertDialog>
         </div>
-        <div className="text-sm text-white">
+        <div className="text-sm">
           { typeof(message.createdAt) === 'string' ? dateFormat(message.createdAt) : ''}
         </div>
       </CardHeader>

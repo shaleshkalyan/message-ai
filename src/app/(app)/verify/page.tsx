@@ -64,8 +64,8 @@ const Verify = (): React.ReactNode => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-800">
-      <div className="wfull max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="wfull max-w-md p-8 space-y-8 rounded-lg shadow-md">
         <div>
           <div className="text-center text-sm">
             Please enter your one-time password.
@@ -92,7 +92,7 @@ const Verify = (): React.ReactNode => {
             </InputOTP>
             <div className="flex justify-center text-center text-sm">
               {isLoading ? (
-                <Button className="bg-gray-800 text-white" disabled>
+                <Button disabled>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Please wait...
                 </Button>
@@ -102,7 +102,6 @@ const Verify = (): React.ReactNode => {
                   variant={"outline"}
                   type="button"
                   onClick={submitOtp}
-                  className="bg-gray-800 text-white"
                 >
                   Submit OTP
                 </Button>

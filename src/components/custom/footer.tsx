@@ -1,8 +1,8 @@
-"use client"
+"use client";
 const Footer = () => {
   return (
-    <footer className="text-center p-4 md:p-6 bg-gray-900 text-white">
-      © 2023 Mystery Inbox. All rights reserved.
+    <footer className="text-center mb-2 mt-2">
+      © 2024 Mystery Inbox. All rights reserved.
     </footer>
   );
 };

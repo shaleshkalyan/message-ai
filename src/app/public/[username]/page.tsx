@@ -127,12 +127,12 @@ export default function SendMessage() {
   const copyToClipboard = (data: string) => {
     navigator.clipboard.writeText(data);
     toast({
-      title: "URL Copied!",
+      title: "Message Copied!",
       description: "Data has been copied to clipboard.",
     });
   };
   return (
-    <div className="container mx-auto my-8 p-6 bg-white rounded max-w-4xl">
+    <div className="container mx-auto my-8 p-6 rounded max-w-4xl">
       <h1 className="text-4xl font-bold mb-6 text-center">
         Slide into the {username}'s DM
       </h1>
@@ -163,7 +163,6 @@ export default function SendMessage() {
               </Button>
             ) : (
               <Button
-                className="bg-gray-800"
                 type="submit"
                 disabled={isLoading || !messageContent}
               >
@@ -177,7 +176,7 @@ export default function SendMessage() {
       <div className="space-y-4 my-8">
         <div className="space-y-2">
           {isLoading ? (
-            <Button className="bg-gray-800 text-white" disabled>
+            <Button disabled>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Please wait...
             </Button>
@@ -186,7 +185,7 @@ export default function SendMessage() {
               size="sm"
               variant={"outline"}
               onClick={fetchSuggestedMessages}
-              className="my-4 bg-gray-800 text-white"
+              className="my-4"
               disabled={isLoading}
             >
               Get messages from AI
@@ -226,14 +225,14 @@ export default function SendMessage() {
                   />
                   <Button
                     variant={"outline"}
-                    className="m-2 bg-gray-800 text-white"
+                    className="m-2"
                     size="sm"
                     onClick={() => handleMessageClick(message)}
                   >
                     <Send />
                   </Button>
                   <Button
-                    className="m-2 bg-gray-800 text-white"
+                    className="m-2"
                     variant="outline"
                     size="sm"
                     onClick={() => copyToClipboard(message)}
@@ -251,7 +250,7 @@ export default function SendMessage() {
         <div className="mb-4">Go To Your Message Board</div>
         <Link href={"/sign-up"}>
           <Button
-            className="m-2 bg-gray-800 text-white"
+            className="m-2"
             size="sm"
             variant={"outline"}
           >

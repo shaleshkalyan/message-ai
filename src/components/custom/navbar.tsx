@@ -36,6 +36,7 @@ const Navbar = () => {
     // Update authState directly without creating a copy
     authState.theme = themeMode;
     authAction({ type: "THEME", payload: authState });
+    document.body.classList.toggle("dark");
   };
   const logoutUser = async () => {
     setIsLoading(true);
@@ -72,12 +73,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="p-4 md:p-6 shadow-md bg-gray-900 text-white">
+    <nav className="shadow-md">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
-        <a href="#" className="text-xl font-bold mb-4 md:mb-0">
+        <a href="#" className="text-xl font-bold mb-4 md:mb-0 ml-2">
           Mystery Inbox
         </a>
-        <div className="flex flex-col md:flex-row justify-between items-center">
+        <div className="flex flex-col md:flex-row justify-between items-center mr-2">
           <div className="m-2 p-4 flex justify-center items-center">
             <Switch
               className="space-x-2"
@@ -95,7 +96,7 @@ const Navbar = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Avatar>
-                    <AvatarFallback className="bg-white text-black">
+                    <AvatarFallback>
                       {authState.email.substring(0, 2).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
@@ -141,7 +142,7 @@ const Navbar = () => {
             </>
           ) : (
             <Button
-              className="w-full md:w-auto bg-slate-100 text-black"
+              className="w-full md:w-auto"
               variant={"outline"}
               onClick={() => router.push("/login")}
             >

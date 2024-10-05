@@ -139,8 +139,8 @@ const Dashboard = () => {
       setIsSwitchLoading(false);
     }
   }
-  const baseUrl = `vercel`;
-  const profileUrl = `${baseUrl}/public/${authState.userName}`;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const profileUrl = `${baseUrl}public/${authState.userName}`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
@@ -150,7 +150,7 @@ const Dashboard = () => {
     });
   };
   return (
-    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
+    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 rounded w-full max-w-6xl">
       <div className="mb-4 container mx-auto flex flex-col md:flex-row justify-between items-center">
         <div className="flex flex-col items-center">
           <h2 className="text-lg font-semibold mb-2">
@@ -166,7 +166,6 @@ const Dashboard = () => {
             <Button
               size="sm"
               variant={"outline"}
-              className="bg-gray-800 text-white"
               onClick={copyToClipboard}
             >
               <CopyIcon />
@@ -191,7 +190,7 @@ const Dashboard = () => {
       <Button
         size="sm"
         variant={"outline"}
-        className="m-4 bg-gray-800 text-white"
+        className="m-4"
         onClick={(e) => {
           e.preventDefault();
           fetchAllMessages(true);

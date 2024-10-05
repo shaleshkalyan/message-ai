@@ -72,8 +72,8 @@ const Login = (): React.ReactNode => {
     }
   };
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-800">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md m-2">
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="w-full max-w-md p-8 space-y-8 rounded-lg shadow-md m-2">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
             Mystery Inbox!
@@ -113,7 +113,7 @@ const Login = (): React.ReactNode => {
             />
             <div className="flex justify-center">
               {isLoading ? (
-                <Button className="bg-gray-800 text-white" disabled>
+                <Button disabled>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Please wait
                 </Button>
@@ -121,7 +121,6 @@ const Login = (): React.ReactNode => {
                 <Button
                   size="sm"
                   variant={"outline"}
-                  className="bg-gray-800 text-white"
                   type="submit"
                 >
                   Login
@@ -133,7 +132,7 @@ const Login = (): React.ReactNode => {
         <div className="mt-4 text-center">
           <p>
             New Member ?{" "}
-            <Link href="sign-up" className="text-blue-900 hover:text-gray-800">
+            <Link href="sign-up">
               Sign Up Here
             </Link>
           </p>
