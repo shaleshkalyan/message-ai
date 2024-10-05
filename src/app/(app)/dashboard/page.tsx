@@ -21,7 +21,6 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false);
   const { toast } = useToast();
-
   const handleDeleteMessage = async (messageId: string) => {
     setMessages(messages.filter((message) => message._id !== messageId));
   };
@@ -139,9 +138,8 @@ const Dashboard = () => {
     } finally {
       setIsSwitchLoading(false);
     }
-  };
-
-  const baseUrl = process.env.VERCEL_URL;
+  }
+  const baseUrl = `vercel`;
   const profileUrl = `${baseUrl}/public/${authState.userName}`;
 
   const copyToClipboard = () => {

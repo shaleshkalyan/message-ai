@@ -1,3 +1,4 @@
+import { initialAuthState } from '@/providers/AuthProvider';
 import { authActionType, authStateType } from "@/types/AuthContext";
 
 export const authReducer = (
@@ -6,20 +7,21 @@ export const authReducer = (
 ): authStateType => {
     switch (action.type) {
         case "LOGIN":
+            const { userName, email, userToken, tokenExpiry } = action.payload;
             return {
                 ...state,
-                userName: action.payload.userName,
-                email: action.payload.email,
-                userToken: action.payload.userToken,
-                tokenExpiry: action.payload.tokenExpiry,
+                userName,
+                email,
+                userToken,
+                tokenExpiry,
             };
         case "LOGOUT":
+            return initialAuthState;
+        case "THEME":
+            const { theme } = action.payload
             return {
                 ...state,
-                userName: '',
-                email: '',
-                userToken: 0,
-                tokenExpiry: null,
+                theme
             };
         default:
             return state;

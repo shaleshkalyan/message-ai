@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
-import { Loader2 } from "lucide-react";
+import { Loader2, MoonIcon, SunIcon } from "lucide-react";
 import { initialAuthState } from "@/providers/AuthProvider";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { useAuthContext } from "@/hooks/UseAuth";
@@ -23,12 +23,20 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { Switch } from "../ui/switch";
 
 const Navbar = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   let { authState, authAction } = useAuthContext();
+  const [themeMode, setThemeMode] = useState<"light" | "dark">(authState.theme);
 
+  const toggleTheme = async () => {
+    setThemeMode(themeMode === "dark" ? "light" : "dark");
+    // Update authState directly without creating a copy
+    authState.theme = themeMode;
+    authAction({ type: "THEME", payload: authState });
+  };
   const logoutUser = async () => {
     setIsLoading(true);
     try {
@@ -69,69 +77,85 @@ const Navbar = () => {
         <a href="#" className="text-xl font-bold mb-4 md:mb-0">
           Mystery Inbox
         </a>
-        {authState.userName ? (
-          <>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Avatar>
-                  <AvatarFallback className="bg-white text-black">
-                    {authState.email.substring(0, 2).toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-60">
-                <DropdownMenuLabel>Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuSub>
-                    <DropdownMenuSubTrigger className="h-8">
-                      Profile
-                    </DropdownMenuSubTrigger>
-                    <DropdownMenuPortal>
-                      <DropdownMenuSubContent>
-                        <DropdownMenuItem className="h-5">
-                          <span className="text-sm font-bold">Username : </span>
-                          {authState.userName}
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="h-5">
-                          <span className="text-sm font-bold">Email : </span>
-                          {authState.email}
-                        </DropdownMenuItem>
-                      </DropdownMenuSubContent>
-                    </DropdownMenuPortal>
-                  </DropdownMenuSub>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Button
-                    size="icon"
-                    className="w-full text-sm h-5"
-                    variant={"ghost"}
-                    onClick={logoutUser}
-                  >
-                    Logout
-                  </Button>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </>
-        ) : (
-          <Button
-            className="w-full md:w-auto bg-slate-100 text-black"
-            variant={"outline"}
-            onClick={() => router.push("/login")}
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Loading
-              </>
+        <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="m-2 p-4 flex justify-center items-center">
+            <Switch
+              className="space-x-2"
+              checked={themeMode === "light"}
+              onCheckedChange={toggleTheme}
+            />
+            {themeMode === "light" ? (
+              <SunIcon size={24} />
             ) : (
-              "Login"
+              <MoonIcon size={24} />
             )}
-          </Button>
-        )}
+          </div>
+          {authState.userName ? (
+            <>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Avatar>
+                    <AvatarFallback className="bg-white text-black">
+                      {authState.email.substring(0, 2).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-60">
+                  <DropdownMenuLabel>Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuSub>
+                      <DropdownMenuSubTrigger className="h-8">
+                        Profile
+                      </DropdownMenuSubTrigger>
+                      <DropdownMenuPortal>
+                        <DropdownMenuSubContent>
+                          <DropdownMenuItem className="h-5">
+                            <span className="text-sm font-bold">
+                              Username :{" "}
+                            </span>
+                            {authState.userName}
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className="h-5">
+                            <span className="text-sm font-bold">Email : </span>
+                            {authState.email}
+                          </DropdownMenuItem>
+                        </DropdownMenuSubContent>
+                      </DropdownMenuPortal>
+                    </DropdownMenuSub>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <Button
+                      size="icon"
+                      className="w-full text-sm h-5"
+                      variant={"ghost"}
+                      onClick={logoutUser}
+                    >
+                      Logout
+                    </Button>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
+          ) : (
+            <Button
+              className="w-full md:w-auto bg-slate-100 text-black"
+              variant={"outline"}
+              onClick={() => router.push("/login")}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Loading
+                </>
+              ) : (
+                "Login"
+              )}
+            </Button>
+          )}
+        </div>
       </div>
     </nav>
   );

@@ -1,16 +1,17 @@
 
 export interface AuthContextType {
-    authState : authStateType;
-    authAction : (params : authActionType) => void;
-  }
+  authState: authStateType;
+  authAction: (params: authActionType) => void;
+}
 export interface authStateType {
-    userName: string;
-    email: string;
-    userToken: number;
-    tokenExpiry: Date | null;
-  }
-  
+  userName: string;
+  email: string;
+  userToken: number;
+  tokenExpiry: Date | null;
+  theme: "light" | "dark";
+}
+
 export interface authActionType {
-    type : 'LOGIN' | 'LOGOUT',
-    payload : authStateType
-  }
+  type: 'LOGIN' | 'LOGOUT' | "THEME",
+  payload: authStateType
+}

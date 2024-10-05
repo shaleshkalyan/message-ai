@@ -13,6 +13,7 @@ export const initialAuthState: authStateType = {
   email: "",
   userToken: 0,
   tokenExpiry: null,
+  theme : "light"
 };
 
 export const AuthContextProvider = ({
