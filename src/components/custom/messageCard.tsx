@@ -56,7 +56,7 @@ const MessageCard = ({ message, onDelete }: MessageCardProps) => {
     return result;
   };
   return (
-    <Card className="card-bordered">
+    <Card className="card-bordered bg-accent">
       <CardHeader>
         <div className="flex justify-between items-center">
           <CardTitle>{message.content}</CardTitle>
@@ -73,8 +73,8 @@ const MessageCard = ({ message, onDelete }: MessageCardProps) => {
               <AlertDialogHeader>
                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                 <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
+                  This action cannot be undone. This message will be permanently deleted
+                  from our servers.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
@@ -90,7 +90,6 @@ const MessageCard = ({ message, onDelete }: MessageCardProps) => {
           { typeof(message.createdAt) === 'string' ? dateFormat(message.createdAt) : ''}
         </div>
       </CardHeader>
-      <CardContent></CardContent>
     </Card>
   );
 };

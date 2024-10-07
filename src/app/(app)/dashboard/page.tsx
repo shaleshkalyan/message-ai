@@ -138,9 +138,10 @@ const Dashboard = () => {
     } finally {
       setIsSwitchLoading(false);
     }
-  }
+  };
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const profileUrl = `${baseUrl}public/${authState.userName}`;
+  const profileText = `${authState.userName}'s anonymous link`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
@@ -150,24 +151,20 @@ const Dashboard = () => {
     });
   };
   return (
-    <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 rounded w-full max-w-6xl">
+    <div className="m-4 p-6 rounded max-w-7xl">
       <div className="mb-4 container mx-auto flex flex-col md:flex-row justify-between items-center">
         <div className="flex flex-col items-center">
           <h2 className="text-lg font-semibold mb-2">
-            Want to get anonymous messages? Just share your link!
+            Want to get anonymous messages? Just share your link!!
           </h2>{" "}
           <div className="flex flex-row items-center">
             <input
               type="text"
-              value={profileUrl}
+              value={profileText}
               disabled
-              className="input input-bordered w-full p-2 mr-2"
+              className="input input-bordered w-full p-2 m-2"
             />
-            <Button
-              size="sm"
-              variant={"outline"}
-              onClick={copyToClipboard}
-            >
+            <Button size="sm" variant={"outline"} onClick={copyToClipboard}>
               <CopyIcon />
             </Button>
           </div>

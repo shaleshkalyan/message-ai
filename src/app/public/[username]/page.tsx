@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Loader2, CopyIcon, Send } from "lucide-react";
+import { Loader2, CopyIcon, MailPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
@@ -45,6 +45,10 @@ export default function SendMessage() {
 
   const handleMessageClick = (message: string) => {
     form.setValue("content", message);
+    toast({
+      title: "success",
+      description: "Message added to text area !",
+    });
   };
 
   const getAllMessages = (messageString: string): string[] => {
@@ -147,7 +151,7 @@ export default function SendMessage() {
                 <FormControl>
                   <Textarea
                     placeholder="Write your anonymous message here"
-                    className="resize-none"
+                    className="resize-none text-accent-foreground bg-accent"
                     {...field}
                   />
                 </FormControl>
@@ -164,6 +168,7 @@ export default function SendMessage() {
             ) : (
               <Button
                 type="submit"
+                className="bg-accent text-accent-foreground"
                 disabled={isLoading || !messageContent}
               >
                 Send
@@ -185,13 +190,13 @@ export default function SendMessage() {
               size="sm"
               variant={"outline"}
               onClick={fetchSuggestedMessages}
-              className="my-4"
+              className="my-4 bg-accent text-accent-foreground"
               disabled={isLoading}
             >
               Get messages from AI
             </Button>
           )}
-          <p>Click on any message below to select it.</p>
+          <p>Click on icon below to select message.</p>
         </div>
         <Card>
           <CardHeader>
@@ -216,29 +221,31 @@ export default function SendMessage() {
               </div>
             ) : (
               getAllMessages(completion.message).map((message, index) => (
-                <div className="flex flex-row">
+                <div className="flex flex-col justify-center items-center md:flex-row">
                   <input
                     type="text"
                     value={message}
                     disabled
                     className="input input-bordered w-full p-2 mr-2"
                   />
-                  <Button
-                    variant={"outline"}
-                    className="m-2"
-                    size="sm"
-                    onClick={() => handleMessageClick(message)}
-                  >
-                    <Send />
-                  </Button>
-                  <Button
-                    className="m-2"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => copyToClipboard(message)}
-                  >
-                    <CopyIcon />
-                  </Button>
+                  <div className="flex flex-row">
+                    <Button
+                      variant={"outline"}
+                      className="m-2"
+                      size="sm"
+                      onClick={() => handleMessageClick(message)}
+                    >
+                      <MailPlus />
+                    </Button>
+                    <Button
+                      className="m-2"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => copyToClipboard(message)}
+                    >
+                      <CopyIcon />
+                    </Button>
+                  </div>
                 </div>
               ))
             )}
@@ -247,14 +254,13 @@ export default function SendMessage() {
       </div>
       <Separator className="my-6" />
       <div className="text-center">
-        <div className="mb-4">Go To Your Message Board</div>
         <Link href={"/sign-up"}>
           <Button
-            className="m-2"
+            className="m-2 bg-accent text-accent-foreground"
             size="sm"
             variant={"outline"}
           >
-            Create Your Account
+            Sign up for anonymous messages
           </Button>
         </Link>
       </div>

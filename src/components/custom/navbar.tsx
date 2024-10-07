@@ -23,7 +23,6 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Switch } from "../ui/switch";
 
 const Navbar = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -73,30 +72,32 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="shadow-md">
+    <nav className="shadow-md bg-foreground text-background pb-2">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
         <a href="#" className="text-xl font-bold mb-4 md:mb-0 ml-2">
           Mystery Inbox
         </a>
         <div className="flex flex-col md:flex-row justify-between items-center mr-2">
           <div className="m-2 p-4 flex justify-center items-center">
-            <Switch
-              className="space-x-2"
-              checked={themeMode === "light"}
-              onCheckedChange={toggleTheme}
-            />
-            {themeMode === "light" ? (
-              <SunIcon size={24} />
-            ) : (
-              <MoonIcon size={24} />
-            )}
+            <Button
+              variant={"outline"}
+              className="m-2 bg-background"
+              size="sm"
+              onClick={toggleTheme}
+            >
+              {themeMode === "light" ? (
+                <SunIcon size={15} color="black"/>
+              ) : (
+                <MoonIcon size={15} color="white"/>
+              )}
+            </Button>
           </div>
           {authState.userName ? (
             <>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Avatar>
-                    <AvatarFallback>
+                    <AvatarFallback className="background text-foreground">
                       {authState.email.substring(0, 2).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
@@ -142,7 +143,7 @@ const Navbar = () => {
             </>
           ) : (
             <Button
-              className="w-full md:w-auto"
+              className="w-full md:w-auto background text-foreground"
               variant={"outline"}
               onClick={() => router.push("/login")}
             >

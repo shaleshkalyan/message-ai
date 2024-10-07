@@ -64,11 +64,11 @@ const Verify = (): React.ReactNode => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center">
       <div className="wfull max-w-md p-8 space-y-8 rounded-lg shadow-md">
         <div>
           <div className="text-center text-sm">
-            Please enter your one-time password.
+            Please enter your one-time password, sent to your email.
           </div>
           <div className="space-y-2">
             <InputOTP
@@ -76,7 +76,7 @@ const Verify = (): React.ReactNode => {
               value={otp}
               onChange={(value) => setOtp(value)}
             >
-              <InputOTPGroup>
+              <InputOTPGroup className="bg-accent">
                 <InputOTPSlot index={0} />
                 <InputOTPSeparator />
                 <InputOTPSlot index={1} />
@@ -98,6 +98,7 @@ const Verify = (): React.ReactNode => {
                 </Button>
               ) : (
                 <Button
+                  className="bg-foreground text-background"
                   size={"sm"}
                   variant={"outline"}
                   type="button"

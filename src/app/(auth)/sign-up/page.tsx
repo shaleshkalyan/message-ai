@@ -98,7 +98,7 @@ const SignUpForm = (): React.ReactNode => {
   };
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="w-full max-w-md p-8 space-y-8 rounded-lg shadow-md m-2">
+      <div className="w-full max-w-md p-8 space-y-8 rounded-lg shadow-md m-2 bg-accent text-accent-foreground">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
             Mystery Inbox!
@@ -120,6 +120,7 @@ const SignUpForm = (): React.ReactNode => {
                   <FormItem>
                     <FormControl>
                       <Input
+                        className="text-accent-foreground"
                         placeholder="User Name"
                         {...field}
                         onChange={(e) => {
@@ -167,7 +168,11 @@ const SignUpForm = (): React.ReactNode => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input placeholder="Email" {...field} />
+                      <Input
+                        placeholder="Email"
+                        {...field}
+                        className="text-accent-foreground"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -179,7 +184,11 @@ const SignUpForm = (): React.ReactNode => {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input placeholder="Password" {...field} />
+                      <Input
+                        placeholder="Password"
+                        {...field}
+                        className="text-accent-foreground"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -193,6 +202,7 @@ const SignUpForm = (): React.ReactNode => {
                   </Button>
                 ) : (
                   <Button
+                    className="bg-foreground text-background"
                     size="sm"
                     variant={"outline"}
                     type="submit"
@@ -205,10 +215,7 @@ const SignUpForm = (): React.ReactNode => {
           </Form>
           <div className="mt-4 text-center">
             <p>
-              Already a member ?{" "}
-              <Link href="login">
-                Login Here
-              </Link>
+              Already a member ? <Link href="login">Login Here</Link>
             </p>
           </div>
         </div>
